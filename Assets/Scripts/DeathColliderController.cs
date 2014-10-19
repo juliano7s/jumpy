@@ -23,7 +23,7 @@ public class DeathColliderController : MonoBehaviour
     IEnumerator ReloadGame()
     {
         // ... pause briefly
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         // ... and then reload the level.
         Application.LoadLevel(Application.loadedLevel);
     }

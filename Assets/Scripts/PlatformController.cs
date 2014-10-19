@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlatformLifecycle : MonoBehaviour
+public class PlatformController : MonoBehaviour
 {
 
     public Transform player;

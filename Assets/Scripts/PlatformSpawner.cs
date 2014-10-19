@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlatformController : MonoBehaviour {
+public class PlatformSpawner : MonoBehaviour {
 
     public GameObject platformPrefab;
     public Transform player;

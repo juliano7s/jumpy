@@ -4,17 +4,34 @@ using System.Collections;
 public class DeathColliderController : MonoBehaviour
 {
     public Transform player;
-
-    // Use this for initialization
-    void Start ()
+    
+    void OnTriggerEnter2D(Collider2D col)
     {
-    
+        // If the player hits the trigger...
+        if(col.gameObject.tag == "Player")
+        {
+            // .. stop the camera tracking the player
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>().enabled = false;
+            
+            // ... destroy the player.
+            Destroy (col.gameObject);
+            // ... reload the level.
+            StartCoroutine("ReloadGame");
+        }
     }
-    
+
+    IEnumerator ReloadGame()
+    {
+        // ... pause briefly
+        yield return new WaitForSeconds(2);
+        // ... and then reload the level.
+        Application.LoadLevel(Application.loadedLevel);
+    }
+
     // Update is called once per frame
     void Update ()
     {
-        transform.position = new Vector3(player.position.x, transform.position.y, transform.position.z);
+        if (player != null)
+            transform.position = new Vector3(player.position.x, transform.position.y, transform.position.z);
     }
 }
-

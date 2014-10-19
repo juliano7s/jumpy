@@ -3,16 +3,19 @@ using System.Collections;
 
 public class JumpyController : MonoBehaviour
 {
-    bool moving = false;
-    bool grounded = false;
-    public Transform groundCheck;  //position of the ground check circle
-    float groundRadius = 0.2f;       //radius of the ground check circle
+    public const float JUMP_MULTIPLIER = 100; //ammount to multiply jump vector
+    public const float MOVING_THRESHOLD = 0.5f; //below that object is considered stopped    
+    public const float GROUND_RADIUS = 0.2f;       //radius of the ground check circle
+    
+    private bool moving = false;    //indicates whether object is moving or not
+    private bool grounded = false; //indicates whether object is grounded or not
+    public Transform groundCheck;  //position of the ground check circle    
     public LayerMask whatIsGround; //layers that are considered ground
         
     private Vector2 jumpCmdStart;
     private Vector2 jumpCmdEnd;
     private Vector2 jumpVector;
-    public float jumpMultiplier = 100;
+    
     private Queue jumpCommands;       //jump commands queue
     private bool mouseIsHoldedDown;
 
@@ -25,15 +28,14 @@ public class JumpyController : MonoBehaviour
     
     void FixedUpdate()
     {
-        grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
-        moving = rigidbody2D.velocity.magnitude > 0.0f ? true : false;
+        grounded = Physics2D.OverlapCircle(groundCheck.position, GROUND_RADIUS, whatIsGround);
+        moving = rigidbody2D.velocity.magnitude > MOVING_THRESHOLD ? true : false;
 
         //dequeue the last jump command and add the force
         if (jumpCommands.Count > 0 && !moving)
         {
             Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
-            Vector2 nextJumpForce = new Vector2(nextJump.x * jumpMultiplier, nextJump.y * jumpMultiplier);
-            rigidbody2D.AddForce(nextJumpForce);
+            rigidbody2D.AddForce(nextJump * JUMP_MULTIPLIER);
         }
 
     }

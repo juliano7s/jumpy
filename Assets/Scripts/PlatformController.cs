@@ -6,11 +6,15 @@ public class PlatformController : MonoBehaviour
 
     public Transform player;
     public float platformDeathXTreshold = 40f;
+    
+    private Score scoreScriptObject;
+    private bool hasScored;
 
     // Use this for initialization
     void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        scoreScriptObject = GameObject.Find("score").GetComponent<Score>();
     }
     
     // Update is called once per frame
@@ -31,9 +35,10 @@ public class PlatformController : MonoBehaviour
 
     void OnCollisionEnter2D (Collision2D collision)
     {
-        // Change direction when hit Wall
-        if (collision.gameObject.tag == "Wall") {
-            return;
+        // Increases score
+        if (collision.gameObject.tag == "Player" && !hasScored) {
+            scoreScriptObject.score++;
+            hasScored = true;
         }
     }
 }

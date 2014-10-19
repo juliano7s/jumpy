@@ -33,8 +33,8 @@ public class PlatformSpawner : MonoBehaviour {
         if (currentXThreshold < newSpawnXThreshold)
         {
             Vector2 platformSize = ((BoxCollider2D) platformPrefab.collider2D).size;
-            float yRandom = Random.Range(0f, 20f);
-            Vector2 position = new Vector2(lastSpawnedPlatform.transform.position.x + 2 * platformSize.x, lastSpawnedPlatform.transform.position.y + yRandom);
+            float yRandom = Random.Range(-15f, 15f);
+            Vector2 position = new Vector2(lastSpawnedPlatform.transform.position.x + 2 * platformSize.x, yRandom);
             Debug.Log("Spawning platform at: " + position);
             SpawnPlatform(position);
         }

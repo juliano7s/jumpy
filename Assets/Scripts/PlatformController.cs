@@ -5,7 +5,7 @@ public class PlatformController : MonoBehaviour
 {
 
     public Transform player;
-    public float platformDeathXTreshold = 150f;
+    public float platformDeathXTreshold = 40f;
 
     // Use this for initialization
     void Start ()
@@ -18,7 +18,10 @@ public class PlatformController : MonoBehaviour
     {
         if (player != null)
         {
-            if ((player.transform.position.x - transform.position.x) > platformDeathXTreshold)
+            float leftXCameraBoundary = Camera.main.transform.position.x - Camera.main.orthographicSize * Screen.width/Screen.height;
+            //Debug.Log ("xCameraBoundary: " + xCameraBoundary);
+            //Debug.Log ("lastSpawnedPlatform.transform.position.x - xCameraBoundary =  " + lastSpawnedPlatform.transform.position.x + " - " + xCameraBoundary + " = " + currentXThreshold);
+            if ((transform.position.x + ((BoxCollider2D) collider2D).size.x) < leftXCameraBoundary)
             {
                 Debug.Log("Player far away. Destroying myself: " + (player.transform.position.x - transform.position.x));
                 Destroy(gameObject);

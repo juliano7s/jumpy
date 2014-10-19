@@ -47,10 +47,10 @@ TextureImporter:
     - name: simplePlatform_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 18
-        width: 293
-        height: 20
+        x: 0
+        y: 5
+        width: 150
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

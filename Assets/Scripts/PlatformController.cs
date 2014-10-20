@@ -39,6 +39,7 @@ public class PlatformController : MonoBehaviour
     {
         // Increases score
         if (collision.gameObject.tag == "Player" && !hasScored) {
+            audio.Play();
             scoreScriptObject.score++;
             if (jumpyController.isComboJump)
             {

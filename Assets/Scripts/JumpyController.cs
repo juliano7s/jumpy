@@ -41,6 +41,7 @@ public class JumpyController : MonoBehaviour
             Vector2 nextJump = (Vector2) jumpCommands.Dequeue();            
             isComboJump = (bool) jumpCombos.Dequeue();
             Debug.Log ("isComboJump = " + isComboJump);
+            audio.Play();
             rigidbody2D.AddForce(nextJump * JUMP_MULTIPLIER);
         }
     }

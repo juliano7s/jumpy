@@ -18,7 +18,7 @@ public class PlatformSpawner : MonoBehaviour {
             //Debug.Log("--- collider scale: " + ((BoxCollider2D) platformPrefab.collider2D).size);
             Vector2 platformSize = ((BoxCollider2D) platformPrefab.collider2D).size;
             float yRandom = Random.Range(0f, 30f);
-            Vector2 position = new Vector2(player.position.x + i * 2 * platformSize.x, player.position.y - 2 * platformSize.y + yRandom);
+            Vector2 position = new Vector2(player.position.x + i * 1.75f * platformSize.x, player.position.y - 2 * platformSize.y + yRandom);
             SpawnPlatform(position);
         }
     }

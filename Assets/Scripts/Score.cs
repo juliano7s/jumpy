@@ -12,8 +12,16 @@ public class Score : MonoBehaviour {
         if (previousScore != score)
         {
             Debug.Log ("Score changed to: " + score);
-            guiText.text = "" + score;
+            guiText.text = "Score: " + score;
             previousScore = score;
+        }
+
+        if (comboCount > 0)
+        {
+            GameObject.Find("comboMultiplier").guiText.text = "C O M B O x" + comboCount + " !!";
+        } else
+        {
+            GameObject.Find("comboMultiplier").guiText.text = "";
         }
     }
 

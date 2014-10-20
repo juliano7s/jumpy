@@ -47,7 +47,7 @@ public class PlatformController : MonoBehaviour
             } else
             {
                 Debug.Log("Combo Multiplier x" + scoreScriptObject.comboCount);
-                scoreScriptObject.score += scoreScriptObject.comboCount * 2;
+                scoreScriptObject.score += scoreScriptObject.comboCount;
                 scoreScriptObject.comboCount = 0;
             }
             hasScored = true;

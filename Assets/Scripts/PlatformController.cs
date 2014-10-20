@@ -5,6 +5,7 @@ public class PlatformController : MonoBehaviour
 {
 
     public Transform player;
+    private JumpyController jumpyController;
     public float platformDeathXTreshold = 40f;
     
     private Score scoreScriptObject;
@@ -14,6 +15,7 @@ public class PlatformController : MonoBehaviour
     void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        jumpyController = player.GetComponent<JumpyController>();
         scoreScriptObject = GameObject.Find("score").GetComponent<Score>();
     }
     
@@ -38,6 +40,16 @@ public class PlatformController : MonoBehaviour
         // Increases score
         if (collision.gameObject.tag == "Player" && !hasScored) {
             scoreScriptObject.score++;
+            if (jumpyController.isComboJump)
+            {
+                Debug.Log("Combo jump!!!");
+                scoreScriptObject.comboCount++;
+            } else
+            {
+                Debug.Log("Combo Multiplier x" + scoreScriptObject.comboCount);
+                scoreScriptObject.score += scoreScriptObject.comboCount * 2;
+                scoreScriptObject.comboCount = 0;
+            }
             hasScored = true;
         }
     }

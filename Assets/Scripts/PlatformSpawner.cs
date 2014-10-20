@@ -35,7 +35,7 @@ public class PlatformSpawner : MonoBehaviour {
             Vector2 platformSize = ((BoxCollider2D) platformPrefab.collider2D).size;
             float yRandom = Random.Range(-15f, 15f);
             Vector2 position = new Vector2(lastSpawnedPlatform.transform.position.x + 2 * platformSize.x, yRandom);
-            Debug.Log("Spawning platform at: " + position);
+            //Debug.Log("Spawning platform at: " + position);
             SpawnPlatform(position);
         }
     }

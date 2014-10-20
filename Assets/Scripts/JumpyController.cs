@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class JumpyController : MonoBehaviour
 {
@@ -11,19 +11,23 @@ public class JumpyController : MonoBehaviour
     private bool grounded = false; //indicates whether object is grounded or not
     public Transform groundCheck;  //position of the ground check circle    
     public LayerMask whatIsGround; //layers that are considered ground
-        
+
+    public bool isComboJump = false;
+
     private Vector2 jumpCmdStart;
     private Vector2 jumpCmdEnd;
     private Vector2 jumpVector;
     
-    private Queue jumpCommands;       //jump commands queue
+    private Queue<Vector2> jumpCommands;       //jump commands queue
+    private Queue<bool> jumpCombos;
     private bool mouseIsHoldedDown;
 
     // Use this for initialization
     void Start ()
     {
          mouseIsHoldedDown = false;
-         jumpCommands = new Queue();
+         jumpCommands = new Queue<Vector2>();
+         jumpCombos = new Queue<bool>();
     }
     
     void FixedUpdate()
@@ -34,10 +38,11 @@ public class JumpyController : MonoBehaviour
         //dequeue the last jump command and add the force
         if (jumpCommands.Count > 0 && !moving)
         {
-            Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
+            Vector2 nextJump = (Vector2) jumpCommands.Dequeue();            
+            isComboJump = (bool) jumpCombos.Dequeue();
+            Debug.Log ("isComboJump = " + isComboJump);
             rigidbody2D.AddForce(nextJump * JUMP_MULTIPLIER);
         }
-
     }
 
     void Update ()
@@ -48,18 +53,23 @@ public class JumpyController : MonoBehaviour
             jumpCmdStart = new Vector2(mouseStart.origin.x, mouseStart.origin.y);
             mouseIsHoldedDown = true;
         }
-        
+
         if (mouseIsHoldedDown)
         {
             Ray mouseEnd = Camera.main.ScreenPointToRay(Input.mousePosition);
             jumpCmdEnd = new Vector2(mouseEnd.origin.x, mouseEnd.origin.y);
             jumpVector = new Vector2(jumpCmdStart.x - jumpCmdEnd.x, jumpCmdStart.y - jumpCmdEnd.y);
         }
-        
+
         if (Input.GetMouseButtonUp(0))
         {
+            if (moving || (!moving && jumpCommands.Count > 0))
+                jumpCombos.Enqueue(true);
+            else
+                jumpCombos.Enqueue(false);
+                
             jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
-            Debug.Log("jumpVector magnitude: " + jumpVector.magnitude);
+            //Debug.Log("jumpVector magnitude: " + jumpVector.magnitude);
             mouseIsHoldedDown = false;
         }
     }

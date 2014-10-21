@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class JumpyController : MonoBehaviour
 {
-    public const float JUMP_MULTIPLIER = 100; //ammount to multiply jump vector
+    public const float JUMP_MULTIPLIER = 20; //ammount to multiply jump vector
+    public const float MAX_JUMP_FORCE = 4000f;
     public const float MOVING_THRESHOLD = 0.5f; //below that object is considered stopped    
     public const float GROUND_RADIUS = 0.2f;       //radius of the ground check circle
     
@@ -36,13 +37,24 @@ public class JumpyController : MonoBehaviour
         moving = rigidbody2D.velocity.magnitude > MOVING_THRESHOLD ? true : false;
 
         //dequeue the last jump command and add the force
-        if (jumpCommands.Count > 0 && !moving)
+        if (jumpCommands.Count > 0 && (!moving || grounded))
         {
-            Vector2 nextJump = (Vector2) jumpCommands.Dequeue();            
+            Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
             isComboJump = (bool) jumpCombos.Dequeue();
-            Debug.Log ("isComboJump = " + isComboJump);
             audio.Play();
-            rigidbody2D.AddForce(nextJump * JUMP_MULTIPLIER);
+            nextJump = nextJump * JUMP_MULTIPLIER;
+            Debug.Log ("jumpForce: " + nextJump);
+            Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
+            
+            if (nextJump.x > MAX_JUMP_FORCE)
+                nextJump.x = Mathf.Sign (nextJump.x) * MAX_JUMP_FORCE;
+            if (nextJump.y > MAX_JUMP_FORCE)
+                nextJump.y = Mathf.Sign (nextJump.y) * MAX_JUMP_FORCE;
+
+            Debug.Log ("jumpForce: " + nextJump);
+            Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
+
+            rigidbody2D.AddForce(nextJump);
         }
     }
 
@@ -50,16 +62,14 @@ public class JumpyController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray mouseStart = Camera.main.ScreenPointToRay(Input.mousePosition);
-            jumpCmdStart = new Vector2(mouseStart.origin.x, mouseStart.origin.y);
+            jumpCmdStart = Input.mousePosition;
             mouseIsHoldedDown = true;
         }
 
         if (mouseIsHoldedDown)
         {
-            Ray mouseEnd = Camera.main.ScreenPointToRay(Input.mousePosition);
-            jumpCmdEnd = new Vector2(mouseEnd.origin.x, mouseEnd.origin.y);
-            jumpVector = new Vector2(jumpCmdStart.x - jumpCmdEnd.x, jumpCmdStart.y - jumpCmdEnd.y);
+            jumpCmdEnd = Input.mousePosition;
+            jumpVector = jumpCmdStart - jumpCmdEnd;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -70,7 +80,6 @@ public class JumpyController : MonoBehaviour
                 jumpCombos.Enqueue(false);
                 
             jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
-            //Debug.Log("jumpVector magnitude: " + jumpVector.magnitude);
             mouseIsHoldedDown = false;
         }
     }

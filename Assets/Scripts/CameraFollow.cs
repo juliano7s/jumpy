@@ -38,6 +38,8 @@ public class CameraFollow : MonoBehaviour
 	void FixedUpdate ()
 	{
 		TrackPlayer();
+        GameObject sky = GameObject.Find("sky");
+        sky.transform.position = new Vector3(transform.position.x, transform.position.y, sky.transform.position.z);
 	}
 	
 	

@@ -23,12 +23,15 @@ public class JumpyController : MonoBehaviour
     private Queue<bool> jumpCombos;
     private bool mouseIsHoldedDown;
 
+    public Animator anim;
+
     // Use this for initialization
     void Start ()
     {
-         mouseIsHoldedDown = false;
-         jumpCommands = new Queue<Vector2>();
-         jumpCombos = new Queue<bool>();
+        mouseIsHoldedDown = false;
+        jumpCommands = new Queue<Vector2>();
+        jumpCombos = new Queue<bool>();
+        anim = GetComponent<Animator>();
     }
     
     void FixedUpdate()
@@ -37,7 +40,7 @@ public class JumpyController : MonoBehaviour
         moving = rigidbody2D.velocity.magnitude > MOVING_THRESHOLD ? true : false;
 
         //dequeue the last jump command and add the force
-        if (jumpCommands.Count > 0 && (!moving || grounded))
+        if (jumpCommands.Count > 0 && !moving)
         {
             Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
             isComboJump = (bool) jumpCombos.Dequeue();
@@ -82,5 +85,7 @@ public class JumpyController : MonoBehaviour
             jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
             mouseIsHoldedDown = false;
         }
+        anim.SetBool("grounded", (grounded || !moving));
+        anim.SetBool("isPreparingJump", mouseIsHoldedDown);
     }
 }

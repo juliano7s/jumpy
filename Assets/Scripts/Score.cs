@@ -12,7 +12,7 @@ public class Score : MonoBehaviour {
         if (previousScore != score)
         {
             Debug.Log ("Score changed to: " + score);
-            guiText.text = "Score: " + score;
+            guiText.text = "" + score;
             previousScore = score;
         }
 

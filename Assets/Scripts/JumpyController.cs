@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class JumpyController : MonoBehaviour
 {
-    public const float JUMP_MULTIPLIER = 15f; //ammount to multiply jump vector
+    public const float JUMP_MULTIPLIER = 10f; //ammount to multiply jump vector
     public const float MAX_JUMP_FORCE = 4000f;
     public const float MOVING_THRESHOLD = 0.5f; //below that object is considered stopped    
     public const float GROUND_RADIUS = 0.2f;       //radius of the ground check circle
@@ -61,6 +61,37 @@ public class JumpyController : MonoBehaviour
         }
     }
 
+#if UNITY_ANDROID
+    void Update ()
+    {
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            jumpCmdStart = Input.mousePosition;
+            mouseIsHoldedDown = true;
+        }
+        
+        if (mouseIsHoldedDown)
+        {
+            jumpCmdEnd = Input.mousePosition;
+            jumpVector = jumpCmdStart - jumpCmdEnd;
+        }
+        
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            if (moving || (!moving && jumpCommands.Count > 0))
+                jumpCombos.Enqueue(true);
+            else
+                jumpCombos.Enqueue(false);
+            
+            jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
+            mouseIsHoldedDown = false;
+        }
+        anim.SetBool("grounded", (grounded || !moving));
+        anim.SetBool("isPreparingJump", mouseIsHoldedDown);
+    }
+#endif
+
+#if UNITY_EDITOR || UNITY_WEBPLAYER
     void Update ()
     {
         if (Input.GetMouseButtonDown(0))
@@ -88,4 +119,5 @@ public class JumpyController : MonoBehaviour
         anim.SetBool("grounded", (grounded || !moving));
         anim.SetBool("isPreparingJump", mouseIsHoldedDown);
     }
+#endif
 }

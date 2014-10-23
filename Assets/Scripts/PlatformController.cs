@@ -7,7 +7,8 @@ public class PlatformController : MonoBehaviour
     public Transform player;
     private JumpyController jumpyController;
     public float platformDeathXTreshold = 40f;
-    
+
+    private Transform childComboAlert;
     private Score scoreScriptObject;
     private bool hasScored;
 
@@ -17,6 +18,7 @@ public class PlatformController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         jumpyController = player.GetComponent<JumpyController>();
         scoreScriptObject = GameObject.Find("score").GetComponent<Score>();
+        childComboAlert = transform.GetChild(0);
     }
     
     // Update is called once per frame
@@ -39,14 +41,15 @@ public class PlatformController : MonoBehaviour
     {
         // Increases score
         if (collision.gameObject.tag == "Player" && !hasScored) {
-            audio.Play(); //http://www.bfxr.net/
             scoreScriptObject.score++;
             if (jumpyController.isComboJump)
             {
                 Debug.Log("Combo jump!!!");
+                childComboAlert.audio.Play();
                 scoreScriptObject.comboCount++;
                 scoreScriptObject.score++;
-            } else {                
+            } else {
+                audio.Play(); //http://www.bfxr.net/
                 scoreScriptObject.score += scoreScriptObject.comboCount;
                 scoreScriptObject.comboCount = 0;
             }

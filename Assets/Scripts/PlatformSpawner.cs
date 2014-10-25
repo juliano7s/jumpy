@@ -6,6 +6,7 @@ public class PlatformSpawner : MonoBehaviour {
     public GameObject platformPrefab;
     public Transform player;
     public float newSpawnXThreshold = 100f; //threshold to spawn a new platform in relation to X boundary of the camera
+    public float yPositionRangeBottom = 0f, yPositionRangeTop = 30f;
 
     private GameObject lastSpawnedPlatform;
 
@@ -17,8 +18,8 @@ public class PlatformSpawner : MonoBehaviour {
             //Debug.Log("Instantiating platform from prefab: " + platformPrefab);
             //Debug.Log("--- collider scale: " + ((BoxCollider2D) platformPrefab.collider2D).size);
             Vector2 platformSize = ((BoxCollider2D) platformPrefab.collider2D).size;
-            float yRandom = Random.Range(0f, 30f);
-            Vector2 position = new Vector2(player.position.x + i * 1.75f * platformSize.x, player.position.y - 2 * platformSize.y + yRandom);
+            float yRandom = Random.Range(yPositionRangeBottom, yPositionRangeTop);
+            Vector2 position = new Vector2(player.position.x + i * 1.75f * platformSize.x, yRandom);
             SpawnPlatform(position);
         }
     }
@@ -33,9 +34,9 @@ public class PlatformSpawner : MonoBehaviour {
         if (currentXThreshold < newSpawnXThreshold)
         {
             Vector2 platformSize = ((BoxCollider2D) platformPrefab.collider2D).size;
-            float yRandom = Random.Range(-5f, 20f);
-            Vector2 position = new Vector2(lastSpawnedPlatform.transform.position.x + 2 * platformSize.x, yRandom);
-            //Debug.Log("Spawning platform at: " + position);
+            float yRandom = Random.Range(yPositionRangeBottom, yPositionRangeTop);
+            Vector2 position = new Vector2(lastSpawnedPlatform.transform.position.x + 1.75f * platformSize.x, yRandom);
+            Debug.Log("Spawning platform at: " + position);
             SpawnPlatform(position);
         }
     }

@@ -13,11 +13,19 @@ public class CameraFollow : MonoBehaviour
 
 	private Transform player;		// Reference to the player's transform.
 
+    private GUIText cameraDebugGuiText;
+
 
 	void Awake ()
 	{
 		// Setting up the reference.
 		player = GameObject.FindGameObjectWithTag("Player").transform;
+        cameraDebugGuiText = GameObject.Find("debug/camera").guiText;
+        cameraDebugGuiText.text = "Height: " + 2 * camera.orthographicSize + " Width: " + 2 * camera.orthographicSize * camera.aspect + "\n";
+        cameraDebugGuiText.text += "Bottom: " + (transform.position.y - camera.orthographicSize) +
+            " Top: " + (transform.position.y + camera.orthographicSize) + "\n";
+        cameraDebugGuiText.text += "Left: " + (transform.position.y - camera.orthographicSize * camera.aspect) +
+            " Right: " + (transform.position.y + camera.orthographicSize * camera.aspect) + "\n";
 	}
 
 

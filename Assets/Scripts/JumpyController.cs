@@ -25,7 +25,7 @@ public class JumpyController : MonoBehaviour
 
     public Animator anim;
     
-    public GUIText debugGuiText;
+    public GUIText jumpDebugGuiText;
 
     // Use this for initialization
     void Start ()
@@ -34,7 +34,7 @@ public class JumpyController : MonoBehaviour
         jumpCommands = new Queue<Vector2>();
         jumpCombos = new Queue<bool>();
         anim = GetComponent<Animator>();
-        debugGuiText = GameObject.Find("debug").guiText;
+        jumpDebugGuiText = GameObject.Find("debug/jumpVector").guiText;
     }
     
     void FixedUpdate()
@@ -98,7 +98,7 @@ public class JumpyController : MonoBehaviour
         if (mouseIsHoldedDown)
         {
             jumpCmdEnd = Input.mousePosition;
-            debugGuiText.text = jumpCmdStart.ToString() + " -> " + jumpCmdEnd.ToString();
+            jumpDebugGuiText.text = jumpCmdStart.ToString() + " -> " + jumpCmdEnd.ToString();
             jumpVector = jumpCmdStart - jumpCmdEnd;
         }
 
@@ -119,7 +119,7 @@ public class JumpyController : MonoBehaviour
                 jumpVector.y = Mathf.Sign (jumpVector.y) * MAX_JUMP_FORCE;
             
             jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
-            debugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
+            jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
             mouseIsHoldedDown = false;
         }
         

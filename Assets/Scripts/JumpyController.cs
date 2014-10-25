@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class JumpyController : MonoBehaviour
 {
-    public const float JUMP_MULTIPLIER = 10f; //ammount to multiply jump vector
+    public const float JUMP_MULTIPLIER = 4000f; //ammount to multiply jump vector
     public const float MAX_JUMP_FORCE = 4000f;
     public const float MOVING_THRESHOLD = 0.5f; //below that object is considered stopped    
     public const float GROUND_RADIUS = 0.2f;       //radius of the ground check circle
@@ -68,6 +68,7 @@ public class JumpyController : MonoBehaviour
         if (mouseIsHoldedDown)
         {
             jumpCmdEnd = Input.mousePosition;
+            jumpDebugGuiText.text = jumpCmdStart.ToString() + " -> " + jumpCmdEnd.ToString();
             jumpVector = jumpCmdStart - jumpCmdEnd;
         }
         
@@ -77,8 +78,20 @@ public class JumpyController : MonoBehaviour
                 jumpCombos.Enqueue(true);
             else
                 jumpCombos.Enqueue(false);
+
+            jumpVector.x = jumpVector.x / Screen.width;
+            jumpVector.y = jumpVector.y / Screen.height;
+            jumpVector = jumpVector * JUMP_MULTIPLIER;
+            Debug.Log ("jumpForce: " + jumpVector);
+            Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
             
+            if (jumpVector.x > MAX_JUMP_FORCE)
+                jumpVector.x = Mathf.Sign (jumpVector.x) * MAX_JUMP_FORCE;
+            if (jumpVector.y > MAX_JUMP_FORCE)
+                jumpVector.y = Mathf.Sign (jumpVector.y) * MAX_JUMP_FORCE;
+
             jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
+            jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
             mouseIsHoldedDown = false;
         }
         anim.SetBool("grounded", (grounded || !moving));
@@ -86,7 +99,8 @@ public class JumpyController : MonoBehaviour
     }
 #endif
 
-#if UNITY_EDITOR || UNITY_WEBPLAYER
+#if UNITY_EDITOR
+#if UNITY_WEBPLAYER
     void Update ()
     {
         if (Input.GetMouseButtonDown(0))
@@ -108,11 +122,13 @@ public class JumpyController : MonoBehaviour
                 jumpCombos.Enqueue(true);
             else
                 jumpCombos.Enqueue(false);
-            
+
+            jumpVector.x = jumpVector.x / Screen.width;
+            jumpVector.y = jumpVector.y / Screen.height;
             jumpVector = jumpVector * JUMP_MULTIPLIER;
             Debug.Log ("jumpForce: " + jumpVector);
             Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
-            
+
             if (jumpVector.x > MAX_JUMP_FORCE)
                 jumpVector.x = Mathf.Sign (jumpVector.x) * MAX_JUMP_FORCE;
             if (jumpVector.y > MAX_JUMP_FORCE)
@@ -126,5 +142,6 @@ public class JumpyController : MonoBehaviour
         anim.SetBool("grounded", (grounded || !moving));
         anim.SetBool("isPreparingJump", mouseIsHoldedDown);
     }
+#endif
 #endif
 }

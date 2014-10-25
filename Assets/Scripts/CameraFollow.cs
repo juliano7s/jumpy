@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
 	public float ySmooth = 8f;		// How smoothly the camera catches up with it's target movement in the y axis.
 	public Vector2 maxXAndY;		// The maximum x and y coordinates the camera can have.
 	public Vector2 minXAndY;		// The minimum x and y coordinates the camera can have.
-
+    public float xOffset = 40f;     // How much to the left the player will appear on the camera
 
 	private Transform player;		// Reference to the player's transform.
 
@@ -52,7 +52,7 @@ public class CameraFollow : MonoBehaviour
 		// If the player has moved beyond the x margin...
 		if(CheckXMargin())
 			// ... the target x coordinate should be a Lerp between the camera's current x position and the player's current x position.
-			targetX = Mathf.Lerp(transform.position.x, player.position.x, xSmooth * Time.deltaTime);
+			targetX = Mathf.Lerp(transform.position.x, player.position.x + xOffset, xSmooth * Time.deltaTime);
 
 		// If the player has moved beyond the y margin...
 		if(CheckYMargin())

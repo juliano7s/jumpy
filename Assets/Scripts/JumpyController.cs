@@ -24,6 +24,8 @@ public class JumpyController : MonoBehaviour
     private bool mouseIsHoldedDown;
 
     public Animator anim;
+    
+    public GUIText debugGuiText;
 
     // Use this for initialization
     void Start ()
@@ -32,6 +34,7 @@ public class JumpyController : MonoBehaviour
         jumpCommands = new Queue<Vector2>();
         jumpCombos = new Queue<bool>();
         anim = GetComponent<Animator>();
+        debugGuiText = GameObject.Find("debug").guiText;
     }
     
     void FixedUpdate()
@@ -45,15 +48,7 @@ public class JumpyController : MonoBehaviour
             Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
             isComboJump = (bool) jumpCombos.Dequeue();
             audio.Play();
-            nextJump = nextJump * JUMP_MULTIPLIER;
-            Debug.Log ("jumpForce: " + nextJump);
-            Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
             
-            if (nextJump.x > MAX_JUMP_FORCE)
-                nextJump.x = Mathf.Sign (nextJump.x) * MAX_JUMP_FORCE;
-            if (nextJump.y > MAX_JUMP_FORCE)
-                nextJump.y = Mathf.Sign (nextJump.y) * MAX_JUMP_FORCE;
-
             Debug.Log ("jumpForce: " + nextJump);
             Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
 
@@ -103,6 +98,7 @@ public class JumpyController : MonoBehaviour
         if (mouseIsHoldedDown)
         {
             jumpCmdEnd = Input.mousePosition;
+            debugGuiText.text = jumpCmdStart.ToString() + " -> " + jumpCmdEnd.ToString();
             jumpVector = jumpCmdStart - jumpCmdEnd;
         }
 
@@ -112,10 +108,21 @@ public class JumpyController : MonoBehaviour
                 jumpCombos.Enqueue(true);
             else
                 jumpCombos.Enqueue(false);
-                
+            
+            jumpVector = jumpVector * JUMP_MULTIPLIER;
+            Debug.Log ("jumpForce: " + jumpVector);
+            Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
+            
+            if (jumpVector.x > MAX_JUMP_FORCE)
+                jumpVector.x = Mathf.Sign (jumpVector.x) * MAX_JUMP_FORCE;
+            if (jumpVector.y > MAX_JUMP_FORCE)
+                jumpVector.y = Mathf.Sign (jumpVector.y) * MAX_JUMP_FORCE;
+            
             jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
+            debugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
             mouseIsHoldedDown = false;
         }
+        
         anim.SetBool("grounded", (grounded || !moving));
         anim.SetBool("isPreparingJump", mouseIsHoldedDown);
     }

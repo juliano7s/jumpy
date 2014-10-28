@@ -12,6 +12,8 @@ public class PlatformController : MonoBehaviour
     private Score scoreScriptObject;
     private bool hasScored;
 
+    public GameObject simplePointPrefab;
+
     // Use this for initialization
     void Start ()
     {
@@ -42,12 +44,14 @@ public class PlatformController : MonoBehaviour
         // Increases score
         if (collision.gameObject.tag == "Player" && !hasScored) {
             scoreScriptObject.score++;
+            Instantiate(simplePointPrefab, collision.transform.position, Quaternion.identity);
             if (jumpyController.isComboJump)
             {
                 Debug.Log("Combo jump!!!");
                 childComboAlert.audio.Play();
                 scoreScriptObject.comboCount++;
                 scoreScriptObject.score++;
+                Instantiate(simplePointPrefab, collision.transform.position, Quaternion.identity);
             } else {
                 audio.Play(); //http://www.bfxr.net/
                 scoreScriptObject.score += scoreScriptObject.comboCount;

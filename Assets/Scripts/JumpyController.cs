@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 public class JumpyController : MonoBehaviour
 {
-    public const float JUMP_MULTIPLIER = 4000f; //ammount to multiply jump vector
+    public const float JUMP_MULTIPLIER = 6000f; //ammount to multiply jump vector
     public const float MAX_JUMP_FORCE = 4000f;
-    public const float MOVING_THRESHOLD = 0.5f; //below that object is considered stopped    
+    public const float MOVING_THRESHOLD = 0.5f;     //below this value, object is considered stopped    
     public const float GROUND_RADIUS = 0.2f;       //radius of the ground check circle
     
     private bool moving = false;    //indicates whether object is moving or not

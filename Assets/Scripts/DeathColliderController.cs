@@ -18,6 +18,12 @@ public class DeathColliderController : MonoBehaviour
             // ... reload the level.
             StartCoroutine("ReloadGame");
         }
+
+        if (col.gameObject.tag == "Point")
+        {
+            Destroy(col.gameObject);
+            Debug.Log("Destroying point");
+        }
     }
 
     IEnumerator ReloadGame()

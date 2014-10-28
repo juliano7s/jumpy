@@ -13,15 +13,16 @@ public class Score : MonoBehaviour {
         {
             Debug.Log ("Score changed to: " + score);
             guiText.text = "" + score;
+            GameObject.Find("score/scoreShadow").guiText.text = "" + score;
             previousScore = score;
         }
 
         if (comboCount > 0)
         {
-            GameObject.Find("comboMultiplier").guiText.text = "C O M B O x" + comboCount + " !!";
+            GameObject.Find("score/comboMultiplier").guiText.text = "C O M B O x" + comboCount + " !!";
         } else
         {
-            GameObject.Find("comboMultiplier").guiText.text = "";
+            GameObject.Find("score/comboMultiplier").guiText.text = "";
         }
     }
 

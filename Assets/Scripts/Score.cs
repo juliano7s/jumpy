@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Score : MonoBehaviour {
 
-    public int score = -1;                   // The player's score.
+    public int score = 0;                   // The player's score.
     public int comboCount = 0;
     private int previousScore = -1;          // The score in the previous frame.
 
@@ -19,10 +19,12 @@ public class Score : MonoBehaviour {
 
         if (comboCount > 0)
         {
-            GameObject.Find("score/comboMultiplier").guiText.text = "C O M B O x" + comboCount + " !!";
+            GameObject.Find("score/comboMultiplier").guiText.text = "+" + comboCount + "!";
+            GameObject.Find("score/comboMultiplier/comboShadow").guiText.text = "+" + comboCount + "!";
         } else
         {
             GameObject.Find("score/comboMultiplier").guiText.text = "";
+            GameObject.Find("score/comboMultiplier/comboShadow").guiText.text = "";
         }
     }
 

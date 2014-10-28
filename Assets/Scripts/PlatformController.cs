@@ -44,17 +44,19 @@ public class PlatformController : MonoBehaviour
         // Increases score
         if (collision.gameObject.tag == "Player" && !hasScored) {
             scoreScriptObject.score++;
-            Instantiate(simplePointPrefab, collision.transform.position, Quaternion.identity);
+            Instantiate(simplePointPrefab, collision.transform.position, Quaternion.identity); // Not ideal instatiating and destroying everytime
             if (jumpyController.isComboJump)
             {
                 Debug.Log("Combo jump!!!");
                 childComboAlert.audio.Play();
                 scoreScriptObject.comboCount++;
-                scoreScriptObject.score++;
-                Instantiate(simplePointPrefab, collision.transform.position, Quaternion.identity);
+                scoreScriptObject.score += scoreScriptObject.comboCount;
+                for (int i = 0; i < scoreScriptObject.comboCount; i++)
+                {
+                    Instantiate(simplePointPrefab, collision.transform.position, Quaternion.identity); // Not ideal instatiating and destroying everytime
+                }
             } else {
                 audio.Play(); //http://www.bfxr.net/
-                scoreScriptObject.score += scoreScriptObject.comboCount;
                 scoreScriptObject.comboCount = 0;
             }
 

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PlatformController : MonoBehaviour
 {
+    public const int MAX_COMBO_COUNT = 5;
 
     public Transform player;
     private JumpyController jumpyController;
@@ -10,8 +11,10 @@ public class PlatformController : MonoBehaviour
 
     private Transform childComboAlert;
     private Score scoreScriptObject;
-    private bool hasScored;
 
+    private bool hasScored;
+    private int comboCount = 0;
+    private Vector2 collisionPosition;
     public GameObject simplePointPrefab;
 
     // Use this for initialization
@@ -37,30 +40,40 @@ public class PlatformController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
 
+        StartCoroutine(InstantiatePoints());
+    }
+    
     void OnCollisionEnter2D (Collision2D collision)
     {
         // Increases score
         if (collision.gameObject.tag == "Player" && !hasScored) {
             scoreScriptObject.score++;
-            Instantiate(simplePointPrefab, collision.transform.position, Quaternion.identity); // Not ideal instatiating and destroying everytime
-            if (jumpyController.isComboJump)
+            collisionPosition = collision.transform.position;
+            comboCount++;
+            if (jumpyController.isComboJump && comboCount < MAX_COMBO_COUNT)
             {
                 Debug.Log("Combo jump!!!");
                 childComboAlert.audio.Play();
                 scoreScriptObject.comboCount++;
+                comboCount += scoreScriptObject.comboCount;
                 scoreScriptObject.score += scoreScriptObject.comboCount;
-                for (int i = 0; i < scoreScriptObject.comboCount; i++)
-                {
-                    Instantiate(simplePointPrefab, collision.transform.position, Quaternion.identity); // Not ideal instatiating and destroying everytime
-                }
             } else {
                 audio.Play(); //http://www.bfxr.net/
                 scoreScriptObject.comboCount = 0;
+                comboCount = comboCount >= MAX_COMBO_COUNT ? 0 : comboCount;
             }
 
             hasScored = true;
+        }
+    }
+
+    IEnumerator InstantiatePoints() {
+        while (comboCount > 0)
+        {
+            Instantiate(simplePointPrefab, collisionPosition, Quaternion.identity); // Not ideal instatiating and destroying everytime
+            comboCount--;
+            yield return null;
         }
     }
 }

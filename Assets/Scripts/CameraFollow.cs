@@ -22,12 +22,14 @@ public class CameraFollow : MonoBehaviour
     {
         // Setting up the reference.
         player = GameObject.FindGameObjectWithTag("Player").transform;
+#if DEBUG
         cameraDebugGuiText = GameObject.Find("debug/camera").guiText;
         screenProperties = "Height: " + 2 * camera.orthographicSize + " Width: " + 2 * camera.orthographicSize * camera.aspect + "\n";
         screenProperties += "Bottom: " + (transform.position.y - camera.orthographicSize) +
             " Top: " + (transform.position.y + camera.orthographicSize) + "\n";
         screenProperties += "Left: " + (transform.position.y - camera.orthographicSize * camera.aspect) +
             " Right: " + (transform.position.y + camera.orthographicSize * camera.aspect) + "\n";
+#endif
     }
 
 
@@ -75,7 +77,9 @@ public class CameraFollow : MonoBehaviour
 
         // Set the camera's position to the target position with the same z component.
         transform.position = new Vector3(targetX, targetY, transform.position.z);
+#if DEBUG
         cameraPosition = "Camera position: (" + targetX + ", " + targetY + ")";
         cameraDebugGuiText.text = screenProperties + cameraPosition;
+#endif
     }
 }

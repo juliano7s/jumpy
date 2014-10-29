@@ -5,6 +5,7 @@ public class JumpyController : MonoBehaviour
 {
     public const float JUMP_MULTIPLIER = 6000f; //ammount to multiply jump vector
     public const float MAX_JUMP_FORCE = 4000f;
+    public const float MAX_JUMP_ARROW_SCALE = 5f;
     public const float MOVING_THRESHOLD = 0.5f;     //below this value, object is considered stopped    
     public const float GROUND_RADIUS = 0.2f;       //radius of the ground check circle
     
@@ -18,6 +19,9 @@ public class JumpyController : MonoBehaviour
     private Vector2 jumpCmdStart;
     private Vector2 jumpCmdEnd;
     private Vector2 jumpVector;
+    public GameObject jumpArrow;
+    public GameObject jumpArrowBody;
+    public GameObject jumpArrowHead;
     
     private Queue<Vector2> jumpCommands;       //jump commands queue
     private Queue<bool> jumpCombos;
@@ -34,7 +38,11 @@ public class JumpyController : MonoBehaviour
         jumpCommands = new Queue<Vector2>();
         jumpCombos = new Queue<bool>();
         anim = GetComponent<Animator>();
+        jumpArrowBody.renderer.enabled = false;
+        jumpArrowHead.renderer.enabled = false;
+#if DEBUG
         jumpDebugGuiText = GameObject.Find("debug/jumpVector").guiText;
+#endif
     }
     
     void FixedUpdate()
@@ -61,24 +69,29 @@ public class JumpyController : MonoBehaviour
     {
         if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            jumpCmdStart = Input.mousePosition;
+            jumpCmdStart = Input.GetTouch(0).position;
+            jumpArrow.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(jumpCmdStart).x,
+                                                       Camera.main.ScreenToWorldPoint(jumpCmdStart).y,
+                                                       jumpArrow.transform.position.z);
             mouseIsHoldedDown = true;
+            jumpArrowBody.renderer.enabled = true;
+            jumpArrowHead.renderer.enabled = true;
         }
         
-        if (mouseIsHoldedDown)
+        if (mouseIsHoldedDown && Input.touchCount == 1)
         {
-            jumpCmdEnd = Input.mousePosition;
-            jumpDebugGuiText.text = jumpCmdStart.ToString() + " -> " + jumpCmdEnd.ToString();
+            jumpCmdEnd = Input.GetTouch(0).position;
+#if DEBUG
+            if (jumpDebugGuiText != null)
+                jumpDebugGuiText.text = jumpCmdStart.ToString() + " -> " + jumpCmdEnd.ToString();
+#endif
             jumpVector = jumpCmdStart - jumpCmdEnd;
-        }
-        
-        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)
-        {
-            if (moving || (!moving && jumpCommands.Count > 0))
-                jumpCombos.Enqueue(true);
-            else
-                jumpCombos.Enqueue(false);
-
+            Vector3 lookPos = Camera.main.ScreenToWorldPoint(jumpCmdStart);
+            lookPos = lookPos - Camera.main.ScreenToWorldPoint(jumpCmdEnd);
+            float angle = Mathf.Atan2(lookPos.x, lookPos.y) * Mathf.Rad2Deg;
+            angle -= 90;
+            jumpArrow.transform.rotation = Quaternion.AngleAxis(angle, Vector3.back);
+            
             jumpVector.x = jumpVector.x / Screen.width;
             jumpVector.y = jumpVector.y / Screen.height;
             jumpVector = jumpVector * JUMP_MULTIPLIER;
@@ -89,11 +102,29 @@ public class JumpyController : MonoBehaviour
                 jumpVector.x = Mathf.Sign (jumpVector.x) * MAX_JUMP_FORCE;
             if (jumpVector.y > MAX_JUMP_FORCE)
                 jumpVector.y = Mathf.Sign (jumpVector.y) * MAX_JUMP_FORCE;
-
-            jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
-            jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
-            mouseIsHoldedDown = false;
+            
+            Debug.Log ("scaling magnitude: " + jumpVector.magnitude);
+            float scaleAmount = jumpVector.magnitude / MAX_JUMP_FORCE * MAX_JUMP_ARROW_SCALE;
+            jumpArrowBody.transform.localScale = new Vector3(scaleAmount, jumpArrow.transform.localScale.y, jumpArrow.transform.localScale.z);
         }
+        
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            if (moving || (!moving && jumpCommands.Count > 0))
+                jumpCombos.Enqueue(true);
+            else
+                jumpCombos.Enqueue(false);
+            
+            jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
+#if DEBUG
+            if (jumpDebugGuiText != null)
+                jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
+#endif
+            mouseIsHoldedDown = false;
+            jumpArrowBody.renderer.enabled = false;
+            jumpArrowHead.renderer.enabled = false;
+        }
+        
         anim.SetBool("grounded", (grounded || !moving));
         anim.SetBool("isPreparingJump", mouseIsHoldedDown);
     }
@@ -106,14 +137,42 @@ public class JumpyController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             jumpCmdStart = Input.mousePosition;
+            jumpArrow.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(jumpCmdStart).x,
+                                                       Camera.main.ScreenToWorldPoint(jumpCmdStart).y,
+                                                       jumpArrow.transform.position.z);
             mouseIsHoldedDown = true;
+            jumpArrowBody.renderer.enabled = true;
+            jumpArrowHead.renderer.enabled = true;
         }
 
         if (mouseIsHoldedDown)
         {
             jumpCmdEnd = Input.mousePosition;
-            jumpDebugGuiText.text = jumpCmdStart.ToString() + " -> " + jumpCmdEnd.ToString();
+#if DEBUG
+            if (jumpDebugGuiText != null)
+                jumpDebugGuiText.text = jumpCmdStart.ToString() + " -> " + jumpCmdEnd.ToString();
+#endif
             jumpVector = jumpCmdStart - jumpCmdEnd;
+            Vector3 lookPos = Camera.main.ScreenToWorldPoint(jumpCmdStart);
+            lookPos = lookPos - Camera.main.ScreenToWorldPoint(jumpCmdEnd);
+            float angle = Mathf.Atan2(lookPos.x, lookPos.y) * Mathf.Rad2Deg;
+            angle -= 90;
+            jumpArrow.transform.rotation = Quaternion.AngleAxis(angle, Vector3.back);
+
+            jumpVector.x = jumpVector.x / Screen.width;
+            jumpVector.y = jumpVector.y / Screen.height;
+            jumpVector = jumpVector * JUMP_MULTIPLIER;
+            Debug.Log ("jumpForce: " + jumpVector);
+            Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
+            
+            if (jumpVector.x > MAX_JUMP_FORCE)
+                jumpVector.x = Mathf.Sign (jumpVector.x) * MAX_JUMP_FORCE;
+            if (jumpVector.y > MAX_JUMP_FORCE)
+                jumpVector.y = Mathf.Sign (jumpVector.y) * MAX_JUMP_FORCE;
+
+            Debug.Log ("scaling magnitude: " + jumpVector.magnitude);
+            float scaleAmount = jumpVector.magnitude / MAX_JUMP_FORCE * MAX_JUMP_ARROW_SCALE;
+            jumpArrowBody.transform.localScale = new Vector3(scaleAmount, jumpArrow.transform.localScale.y, jumpArrow.transform.localScale.z);
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -123,20 +182,14 @@ public class JumpyController : MonoBehaviour
             else
                 jumpCombos.Enqueue(false);
 
-            jumpVector.x = jumpVector.x / Screen.width;
-            jumpVector.y = jumpVector.y / Screen.height;
-            jumpVector = jumpVector * JUMP_MULTIPLIER;
-            Debug.Log ("jumpForce: " + jumpVector);
-            Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
-
-            if (jumpVector.x > MAX_JUMP_FORCE)
-                jumpVector.x = Mathf.Sign (jumpVector.x) * MAX_JUMP_FORCE;
-            if (jumpVector.y > MAX_JUMP_FORCE)
-                jumpVector.y = Mathf.Sign (jumpVector.y) * MAX_JUMP_FORCE;
-            
             jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
-            jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
+#if DEBUG
+            if (jumpDebugGuiText != null)
+                jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
+#endif
             mouseIsHoldedDown = false;
+            jumpArrowBody.renderer.enabled = false;
+            jumpArrowHead.renderer.enabled = false;
         }
         
         anim.SetBool("grounded", (grounded || !moving));

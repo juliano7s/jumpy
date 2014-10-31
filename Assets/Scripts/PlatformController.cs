@@ -47,24 +47,27 @@ public class PlatformController : MonoBehaviour
     void OnCollisionEnter2D (Collision2D collision)
     {
         // Increases score
-        if (collision.gameObject.tag == "Player" && !hasScored) {
-            scoreScriptObject.score++;
-            collisionPosition = collision.transform.position;
-            comboCount++;
-            if (jumpyController.isComboJump && comboCount < MAX_COMBO_COUNT)
+        if (collision.gameObject.tag == "Player") {
+            if (!hasScored)
             {
-                Debug.Log("Combo jump!!!");
-                childComboAlert.audio.Play();
-                scoreScriptObject.comboCount++;
-                comboCount += scoreScriptObject.comboCount;
-                scoreScriptObject.score += scoreScriptObject.comboCount;
-            } else {
-                audio.Play(); //http://www.bfxr.net/
+                scoreScriptObject.score++;
+                collisionPosition = collision.transform.position;
+                hasScored = true;
+                if (jumpyController.isComboJump)
+                {
+                    Debug.Log("Combo jump!!!");
+                    childComboAlert.audio.Play();
+                    scoreScriptObject.comboCount++;
+                    comboCount = scoreScriptObject.comboCount;
+                    scoreScriptObject.score += scoreScriptObject.comboCount;
+                } else {
+                    audio.Play(); //http://www.bfxr.net/
+                    scoreScriptObject.comboCount = 0;
+                }
+            } else if (!jumpyController.isComboJump)
+            {
                 scoreScriptObject.comboCount = 0;
-                comboCount = comboCount >= MAX_COMBO_COUNT ? 0 : comboCount;
             }
-
-            hasScored = true;
         }
     }
 

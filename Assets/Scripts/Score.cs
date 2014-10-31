@@ -19,8 +19,8 @@ public class Score : MonoBehaviour {
 
         if (comboCount > 0)
         {
-            GameObject.Find("score/comboMultiplier").guiText.text = "+" + comboCount + "!";
-            GameObject.Find("score/comboMultiplier/comboShadow").guiText.text = "+" + comboCount + "!";
+            GameObject.Find("score/comboMultiplier").guiText.text = "+" + comboCount + " combo!";
+            GameObject.Find("score/comboMultiplier/comboShadow").guiText.text = "+" + comboCount + " combo!";
         } else
         {
             GameObject.Find("score/comboMultiplier").guiText.text = "";

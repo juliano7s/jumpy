@@ -51,6 +51,7 @@ public class PlatformController : MonoBehaviour
             if (!hasScored)
             {
                 scoreScriptObject.score++;
+                comboCount++;
                 collisionPosition = collision.transform.position;
                 hasScored = true;
                 if (jumpyController.isComboJump)
@@ -58,7 +59,7 @@ public class PlatformController : MonoBehaviour
                     Debug.Log("Combo jump!!!");
                     childComboAlert.audio.Play();
                     scoreScriptObject.comboCount++;
-                    comboCount = scoreScriptObject.comboCount;
+                    comboCount += scoreScriptObject.comboCount;
                     scoreScriptObject.score += scoreScriptObject.comboCount;
                 } else {
                     audio.Play(); //http://www.bfxr.net/

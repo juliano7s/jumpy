@@ -15,6 +15,13 @@ public class ButtonController : MonoBehaviour {
 
     void OnMouseDown() {
         Debug.Log("Mouse down on " + transform.name);
-        Application.LoadLevel("Main");
+        if (transform.name == "play")
+            Application.LoadLevel("Main");
+        else if (transform.name == "rank")
+            Debug.Log("Open rank");
+        else if (transform.name == "menu")
+            Application.LoadLevel("Start");
+        else if (transform.name == "rate")
+            Debug.Log("Open rate");
     }
 }

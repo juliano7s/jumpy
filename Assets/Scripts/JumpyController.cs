@@ -16,6 +16,7 @@ public class JumpyController : MonoBehaviour
 
     public bool isComboJump = false;
 
+    private float jumpMultiplierX, jumpMultiplierY;
     private Vector2 jumpCmdStart;
     private Vector2 jumpCmdEnd;
     private Vector2 jumpVector;
@@ -43,6 +44,8 @@ public class JumpyController : MonoBehaviour
 #if DEBUG
         jumpDebugGuiText = GameObject.Find("debug/jumpVector").guiText;
 #endif
+        jumpMultiplierY = JUMP_MULTIPLIER;
+        jumpMultiplierX = JUMP_MULTIPLIER;
     }
     
     void FixedUpdate()
@@ -108,7 +111,8 @@ public class JumpyController : MonoBehaviour
             
             jumpVector.x = jumpVector.x / Screen.width;
             jumpVector.y = jumpVector.y / Screen.height;
-            jumpVector = jumpVector * JUMP_MULTIPLIER;
+            jumpVector.x = jumpVector.x * jumpMultiplierX;
+            jumpVector.y = jumpVector.y * jumpMultiplierY;
             Debug.Log ("jumpForce: " + jumpVector);
             Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
             

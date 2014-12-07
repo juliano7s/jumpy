@@ -4,6 +4,8 @@ using System.Collections;
 public class DeathColliderController : MonoBehaviour
 {
     public Transform player;
+    public GameObject gameOver;
+    public GameObject score;
     
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -16,7 +18,7 @@ public class DeathColliderController : MonoBehaviour
             // ... destroy the player.
             Destroy (col.gameObject);
             // ... reload the level.
-            StartCoroutine("ReloadGame");
+            StartCoroutine("GameOver");
         }
 
         if (col.gameObject.tag == "Point")
@@ -26,12 +28,12 @@ public class DeathColliderController : MonoBehaviour
         }
     }
 
-    IEnumerator ReloadGame()
+    IEnumerator GameOver()
     {
         // ... pause briefly
         yield return new WaitForSeconds(1);
-        // ... and then reload the level.
-        Application.LoadLevel(Application.loadedLevel);
+        score.SetActive(false);
+        gameOver.SetActive(true);
     }
 
     // Update is called once per frame

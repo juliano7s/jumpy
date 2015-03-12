@@ -39,8 +39,8 @@ public class JumpyController : MonoBehaviour
         jumpCommands = new Queue<Vector2>();
         jumpCombos = new Queue<bool>();
         anim = GetComponent<Animator>();
-        jumpArrowBody.renderer.enabled = false;
-        jumpArrowHead.renderer.enabled = false;
+        jumpArrowBody.GetComponent<Renderer>().enabled = false;
+        jumpArrowHead.GetComponent<Renderer>().enabled = false;
 #if DEBUG
         jumpDebugGuiText = GameObject.Find("debug/jumpVector").guiText;
 #endif
@@ -51,19 +51,19 @@ public class JumpyController : MonoBehaviour
     void FixedUpdate()
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, GROUND_RADIUS, whatIsGround);
-        moving = rigidbody2D.velocity.magnitude > MOVING_THRESHOLD ? true : false;
+        moving = GetComponent<Rigidbody2D>().velocity.magnitude > MOVING_THRESHOLD ? true : false;
 
         //dequeue the last jump command and add the force
         if (jumpCommands.Count > 0 && !moving)
         {
             Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
             isComboJump = (bool) jumpCombos.Dequeue();
-            audio.Play();
+            GetComponent<AudioSource>().Play();
             
             Debug.Log ("jumpForce: " + nextJump);
             Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
 
-            rigidbody2D.AddForce(nextJump);
+            GetComponent<Rigidbody2D>().AddForce(nextJump);
         }
     }
 
@@ -84,8 +84,8 @@ public class JumpyController : MonoBehaviour
                                                        Camera.main.ScreenToWorldPoint(jumpCmdStart).y,
                                                        jumpArrow.transform.position.z);
             mouseIsHoldedDown = true;
-            jumpArrowBody.renderer.enabled = true;
-            jumpArrowHead.renderer.enabled = true;
+            jumpArrowBody.GetComponent<Renderer>().enabled = true;
+            jumpArrowHead.GetComponent<Renderer>().enabled = true;
         }
 #if UNITY_ANDROID
         if (mouseIsHoldedDown && Input.touchCount == 1)
@@ -143,8 +143,8 @@ public class JumpyController : MonoBehaviour
                 jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
 #endif
             mouseIsHoldedDown = false;
-            jumpArrowBody.renderer.enabled = false;
-            jumpArrowHead.renderer.enabled = false;
+            jumpArrowBody.GetComponent<Renderer>().enabled = false;
+            jumpArrowHead.GetComponent<Renderer>().enabled = false;
         }
         
         anim.SetBool("grounded", (grounded || !moving));

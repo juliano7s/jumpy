@@ -48,7 +48,7 @@ public class JumpyAiController : MonoBehaviour
     {
 
         grounded = Physics2D.OverlapCircle (groundCheck.position, GROUND_RADIUS, whatIsGround);
-        moving = rigidbody2D.velocity.magnitude > MOVING_THRESHOLD ? true : false;
+        moving = GetComponent<Rigidbody2D>().velocity.magnitude > MOVING_THRESHOLD ? true : false;
         jumpTimer -= Time.deltaTime;
         anim.SetBool("grounded", grounded);
 
@@ -61,8 +61,8 @@ public class JumpyAiController : MonoBehaviour
                 float xForce = Random.Range (-MAX_FORCE, MAX_FORCE);
                 float yForce = Random.Range (0, MAX_FORCE);
                 Vector2 randomForce = new Vector2 (xForce, yForce);
-                rigidbody2D.AddForce (randomForce);
-                audio.Play();
+                GetComponent<Rigidbody2D>().AddForce (randomForce);
+                GetComponent<AudioSource>().Play();
                 prepareJumpTimer = PREPARE_JUMP_TIMER_TIME;
                 jumpTimer = JUMP_TIMER_TIME;
             } else 

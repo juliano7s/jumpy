@@ -33,8 +33,8 @@ public class GameOverController : MonoBehaviour
         bestCombo = PlayerPrefs.GetInt("BestCombo");
         //scoreValue.guiText.text = scoreScriptObject.score.ToString();
         //comboValue.guiText.text = scoreScriptObject.bestComboCount.ToString();
-        bestScoreValue.guiText.text = bestScore.ToString();
-        bestComboValue.guiText.text = bestCombo.ToString();
+        bestScoreValue.GetComponent<GUIText>().text = bestScore.ToString();
+        bestComboValue.GetComponent<GUIText>().text = bestCombo.ToString();
         gameObject.SetActive(false);
     }
 
@@ -60,15 +60,15 @@ public class GameOverController : MonoBehaviour
             Instantiate(simplePointPrefab, pointPosition, Quaternion.identity);
             scorePointAudio.Play();
             score++;
-            scoreValue.guiText.text = score.ToString();
+            scoreValue.GetComponent<GUIText>().text = score.ToString();
             pointsTimer = 0.1f;
             yield return null;
         }
 
-        if (score > bestScore && score == scoreScriptObject.score && int.Parse(bestScoreValue.guiText.text) < score)
+        if (score > bestScore && score == scoreScriptObject.score && int.Parse(bestScoreValue.GetComponent<GUIText>().text) < score)
         {
             Debug.Log("setting score to best");
-            bestScoreValue.guiText.text = score.ToString();
+            bestScoreValue.GetComponent<GUIText>().text = score.ToString();
             PlayerPrefs.SetInt("BestScore", Mathf.Max (score, bestScore));
         }
     }
@@ -81,15 +81,15 @@ public class GameOverController : MonoBehaviour
             Instantiate(simplePointPrefab, pointPosition, Quaternion.identity);
             comboPointAudio.Play();
             combo++;
-            comboValue.guiText.text = combo.ToString();
+            comboValue.GetComponent<GUIText>().text = combo.ToString();
             pointsTimer = 0.1f;
             yield return null;
         }
 
-        if (combo > bestCombo && combo == scoreScriptObject.comboCount  && int.Parse(bestComboValue.guiText.text) < combo)
+        if (combo > bestCombo && combo == scoreScriptObject.comboCount  && int.Parse(bestComboValue.GetComponent<GUIText>().text) < combo)
         {
             Debug.Log("setting combo to best");
-            bestComboValue.guiText.text = combo.ToString();
+            bestComboValue.GetComponent<GUIText>().text = combo.ToString();
             PlayerPrefs.SetInt("BestCombo", Mathf.Max (combo, bestCombo));
         }
     }

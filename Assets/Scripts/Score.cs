@@ -13,23 +13,23 @@ public class Score : MonoBehaviour {
         if (previousScore != score)
         {
             Debug.Log ("Score changed to: " + score);
-            guiText.text = "" + score;
-            GameObject.Find("score/scoreShadow").guiText.text = "" + score;
+            GetComponent<GUIText>().text = "" + score;
+            GameObject.Find("score/scoreShadow").GetComponent<GUIText>().text = "" + score;
             previousScore = score;
         }
 
         if (comboCount > 0)
         {
-            GameObject.Find("score/comboMultiplier").guiText.text = "+" + comboCount + " combo!";
-            GameObject.Find("score/comboMultiplier/comboShadow").guiText.text = "+" + comboCount + " combo!";
+            GameObject.Find("score/comboMultiplier").GetComponent<GUIText>().text = "+" + comboCount + " combo!";
+            GameObject.Find("score/comboMultiplier/comboShadow").GetComponent<GUIText>().text = "+" + comboCount + " combo!";
             if (bestComboCount < comboCount)
             {
                 bestComboCount = comboCount;
             }
         } else
         {
-            GameObject.Find("score/comboMultiplier").guiText.text = "";
-            GameObject.Find("score/comboMultiplier/comboShadow").guiText.text = "";
+            GameObject.Find("score/comboMultiplier").GetComponent<GUIText>().text = "";
+            GameObject.Find("score/comboMultiplier/comboShadow").GetComponent<GUIText>().text = "";
         }
     }
 

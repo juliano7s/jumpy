@@ -8,7 +8,7 @@ public class DeathAlertController : MonoBehaviour
         // If the player hits the trigger...
         if(col.gameObject.tag == "Player")
         {
-            audio.Play();
+            GetComponent<AudioSource>().Play();
         }
     }
 }

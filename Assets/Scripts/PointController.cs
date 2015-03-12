@@ -13,7 +13,7 @@ public class PointController : MonoBehaviour {
     void Awake() {
         xForce = Random.Range(xForce, 5 * xForce);
         yForce = Random.Range(yForce, 2 * yForce);
-        rigidbody2D.AddForce(new Vector2(xForce, yForce));
+        GetComponent<Rigidbody2D>().AddForce(new Vector2(xForce, yForce));
     }
 	
 	// Update is called once per frame

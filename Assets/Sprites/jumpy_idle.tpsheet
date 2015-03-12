@@ -1,0 +1,14 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: jumpy_idle.png (64 x 64)
+# $TexturePacker:SmartUpdate:e88d9a934168f755be3c0fd929a895f1:b325cf8c79aa417a114fef72b220ee84:49c4ef0a3dbe5ccfe3183c67ab3fed9e$
+#
+
+jumpy_idle_0004_Layer-2-copy-2;2;44;17;18;0.5;0.5
+jumpy_idle_0005_Layer-2-copy;2;24;17;18;0.5;0.5
+jumpy_idle_0006_Layer-2-copy-3;2;4;17;18;0.5;0.5
+jumpy_idle_0007_Layer-2;21;44;17;18;0.5;0.5

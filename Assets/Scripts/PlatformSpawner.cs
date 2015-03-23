@@ -13,6 +13,7 @@ public class PlatformSpawner : MonoBehaviour {
     public Transform player;
     public float newSpawnXThreshold = 100f; //threshold to spawn a new platform in relation to X boundary of the camera
     public float yPositionRangeBottom = 0f, yPositionRangeTop = 30f;
+	private float platformDistance = 45.5f;
     private float xCameraBoundary;
 
     private GameObject lastSpawnedPlatform;
@@ -35,7 +36,7 @@ public class PlatformSpawner : MonoBehaviour {
             //Debug.Log("--- collider scale: " + ((BoxCollider2D) platformPrefab.collider2D).size);
             Vector2 platformSize = ((BoxCollider2D) platformPrefab.GetComponent<Collider2D>()).size;
             float yRandom = Random.Range(yPositionRangeBottom, yPositionRangeTop);
-            Vector2 position = new Vector2(player.position.x + i * 35.0f, yRandom);
+            Vector2 position = new Vector2(player.position.x + i * platformDistance, yRandom);
             SpawnPlatform(position);
         }
         GameObject nextPlatform = platformQueue.Count > 0 ? (GameObject) platformQueue.Peek() : null;
@@ -53,7 +54,7 @@ public class PlatformSpawner : MonoBehaviour {
         {
             Vector2 platformSize = ((BoxCollider2D) platformPrefab.GetComponent<Collider2D>()).size;
             float yRandom = Random.Range(yPositionRangeBottom, yPositionRangeTop);
-            Vector2 position = new Vector2(lastSpawnedPlatform.transform.position.x + 35.0f, yRandom);
+            Vector2 position = new Vector2(lastSpawnedPlatform.transform.position.x + platformDistance, yRandom);
             Debug.Log("Spawning platform at: " + position);
             SpawnPlatform(position);
         }

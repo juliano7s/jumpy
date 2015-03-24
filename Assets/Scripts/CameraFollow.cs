@@ -17,18 +17,17 @@ public class CameraFollow : MonoBehaviour
     private string screenProperties;
     private string cameraPosition;
 
-
     void Awake ()
     {
         // Setting up the reference.
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;		
 #if DEBUG
-        cameraDebugGuiText = GameObject.Find("debug/camera").guiText;
-        screenProperties = "Height: " + 2 * camera.orthographicSize + " Width: " + 2 * camera.orthographicSize * camera.aspect + "\n";
-        screenProperties += "Bottom: " + (transform.position.y - camera.orthographicSize) +
-            " Top: " + (transform.position.y + camera.orthographicSize) + "\n";
-        screenProperties += "Left: " + (transform.position.y - camera.orthographicSize * camera.aspect) +
-            " Right: " + (transform.position.y + camera.orthographicSize * camera.aspect) + "\n";
+        //cameraDebugGuiText = GameObject.Find("debug/camera").guiText;
+        //screenProperties = "Height: " + 2 * camera.orthographicSize + " Width: " + 2 * camera.orthographicSize * camera.aspect + "\n";
+        //screenProperties += "Bottom: " + (transform.position.y - camera.orthographicSize) +
+        //    " Top: " + (transform.position.y + camera.orthographicSize) + "\n";
+        //screenProperties += "Left: " + (transform.position.y - camera.orthographicSize * camera.aspect) +
+        //    " Right: " + (transform.position.y + camera.orthographicSize * camera.aspect) + "\n";
 #endif
     }
 
@@ -51,7 +50,7 @@ public class CameraFollow : MonoBehaviour
     {
         TrackPlayer();
         GameObject sky = GameObject.Find("sky");
-        sky.transform.position = new Vector3(transform.position.x, transform.position.y, sky.transform.position.z);
+        sky.transform.position = new Vector3(transform.position.x, transform.position.y, sky.transform.position.z);		
     }
     
     

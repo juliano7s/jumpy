@@ -5,7 +5,7 @@ public class JumpyAiController : MonoBehaviour
 {
 
     public const float MAX_FORCE = 5000f;
-    public const float GROUND_RADIUS = 0.2f;       //radius of the ground check circle
+    public const float GROUND_RADIUS = 1.52f;       //radius of the ground check circle
     public const float MOVING_THRESHOLD = 0.5f;     //below this value, object is considered stopped    
     public const float JUMP_TIMER_TIME = 2f;
     public const float PREPARE_JUMP_TIMER_TIME = 1.5f;

@@ -4,8 +4,9 @@ using System.Collections;
 public class DeathColliderController : MonoBehaviour
 {
     public Transform player;
-    public GameObject gameOver;
+    public GameObject gameOverScreen;
     public GameObject score;
+	public GameObject timer;
     
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -24,7 +25,7 @@ public class DeathColliderController : MonoBehaviour
         if (col.gameObject.tag == "Point")
         {
             Destroy(col.gameObject);    // Not ideal instatiating and destroying everytime
-            Debug.Log("Destroying point");
+            //Debug.Log("Destroying point");
         }
     }
 
@@ -32,8 +33,12 @@ public class DeathColliderController : MonoBehaviour
     {
         // ... pause briefly
         yield return new WaitForSeconds(1);
-        score.SetActive(false);
-        gameOver.SetActive(true);
+        score.GetComponent<GUIText>().enabled = false;
+        score.transform.GetChild(0).GetComponent<GUIText>().enabled = false;
+		timer.GetComponent<GUIText>().enabled = false;
+        timer.transform.GetChild(0).GetComponent<GUIText>().enabled = false;
+        //gameOver.SetActive(true);
+        gameOverScreen.SetActive(true);
     }
 
     // Update is called once per frame

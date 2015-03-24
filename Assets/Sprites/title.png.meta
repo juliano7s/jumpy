@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: 5d0b5b3d9e7091e4b8d37c84ea54db88
+timeCreated: 1427218916
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: title_0
+    21300002: title_1
+    21300004: title_2
+    21300006: title_5
+    21300008: title_6
+    21300010: title_7
+    21300012: title_3
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 128
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 2
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: title_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 38
+        width: 35
+        height: 27
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: title_1
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 38
+        width: 35
+        height: 27
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: title_2
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 38
+        width: 35
+        height: 27
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: title_5
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 8
+        width: 27
+        height: 20
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: title_6
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 9
+        width: 28
+        height: 19
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: title_7
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 8
+        width: 27
+        height: 20
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: title_3
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 9
+        width: 28
+        height: 19
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

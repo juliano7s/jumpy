@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 7646f12d80cf37f40a2022892ca537fb
+timeCreated: 1427214652
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: gameover_0
+    21300002: gameover_1
+    21300004: gameover_2
+    21300006: gameover_3
+    21300008: gameover_4
+    21300010: gameover_5
+    21300012: gameover_6
+    21300014: gameover_7
+    21300016: gameover_8
+    21300018: gameover_9
+    21300020: gameover_10
+    21300022: gameover_11
+    21300024: gameover_12
+    21300026: gameover_13
+    21300028: gameover_14
+    21300030: gameover_15
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 512
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 3
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: gameover_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 44
+        width: 36
+        height: 12
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_1
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 44
+        width: 36
+        height: 12
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_2
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 37
+        width: 36
+        height: 19
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_3
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 31
+        width: 20
+        height: 10
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_4
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 31
+        width: 20
+        height: 10
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_5
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 18
+        width: 20
+        height: 10
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_6
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 18
+        width: 20
+        height: 10
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_7
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 10
+        width: 36
+        height: 19
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_8
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 4
+        width: 20
+        height: 10
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_9
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 4
+        width: 20
+        height: 10
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_10
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 4
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_11
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 18
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_12
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 31
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_13
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 31
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_14
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 18
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: gameover_15
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 4
+        width: 20
+        height: 11
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

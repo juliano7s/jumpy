@@ -42,7 +42,7 @@ public class JumpyController : MonoBehaviour
         jumpArrowBody.GetComponent<Renderer>().enabled = false;
         jumpArrowHead.GetComponent<Renderer>().enabled = false;
 #if DEBUG
-        jumpDebugGuiText = GameObject.Find("debug/jumpVector").guiText;
+        jumpDebugGuiText = GameObject.Find("debug/jumpVector").GetComponent<GUIText>();
 #endif
         jumpMultiplierY = JUMP_MULTIPLIER;
         jumpMultiplierX = JUMP_MULTIPLIER;
@@ -60,8 +60,8 @@ public class JumpyController : MonoBehaviour
             isComboJump = (bool) jumpCombos.Dequeue();
             GetComponent<AudioSource>().Play();
             
-            Debug.Log ("jumpForce: " + nextJump);
-            Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
+            //Debug.Log ("jumpForce: " + nextJump);
+            //Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
 
             GetComponent<Rigidbody2D>().AddForce(nextJump);
         }
@@ -113,15 +113,15 @@ public class JumpyController : MonoBehaviour
             jumpVector.y = jumpVector.y / Screen.height;
             jumpVector.x = jumpVector.x * jumpMultiplierX;
             jumpVector.y = jumpVector.y * jumpMultiplierY;
-            Debug.Log ("jumpForce: " + jumpVector);
-            Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
+            //Debug.Log ("jumpForce: " + jumpVector);
+            //Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
             
             if (jumpVector.x > MAX_JUMP_FORCE)
                 jumpVector.x = Mathf.Sign (jumpVector.x) * MAX_JUMP_FORCE;
             if (jumpVector.y > MAX_JUMP_FORCE)
                 jumpVector.y = Mathf.Sign (jumpVector.y) * MAX_JUMP_FORCE;
             
-            Debug.Log ("scaling magnitude: " + jumpVector.magnitude);
+            //Debug.Log ("scaling magnitude: " + jumpVector.magnitude);
             float scaleAmount = jumpVector.magnitude / MAX_JUMP_FORCE * MAX_JUMP_ARROW_SCALE;
             jumpArrowBody.transform.localScale = new Vector3(scaleAmount, jumpArrow.transform.localScale.y, jumpArrow.transform.localScale.z);
         }
@@ -150,4 +150,10 @@ public class JumpyController : MonoBehaviour
         anim.SetBool("grounded", (grounded || !moving));
         anim.SetBool("isPreparingJump", mouseIsHoldedDown);
     }
+
+	void OnCollisionEnter2D (Collision2D collision)
+	{
+		ParticleSystem dustPS = transform.GetChild(2).GetComponent<ParticleSystem>();
+		dustPS.Emit(1);
+	}
 }

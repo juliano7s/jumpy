@@ -8,6 +8,18 @@ public class Score : MonoBehaviour {
     public int comboCount = 0;
     private int previousScore = -1;          // The score in the previous frame.
 
+    public float castle2Time;
+    public float castle3Time;
+    public float castle4Time;
+    public float castle5Time;
+    public float castle6Time;
+
+
+    void Start()
+    {
+
+    }
+
     void Update ()
     {
         if (previousScore != score)
@@ -20,16 +32,16 @@ public class Score : MonoBehaviour {
 
         if (comboCount > 0)
         {
-            GameObject.Find("score/comboMultiplier").GetComponent<GUIText>().text = "+" + comboCount + " combo!";
-            GameObject.Find("score/comboMultiplier/comboShadow").GetComponent<GUIText>().text = "+" + comboCount + " combo!";
+            //GameObject.Find("score/comboMultiplier").GetComponent<GUIText>().text = "+" + comboCount + " combo!";
+            //GameObject.Find("score/comboMultiplier/comboShadow").GetComponent<GUIText>().text = "+" + comboCount + " combo!";
             if (bestComboCount < comboCount)
             {
                 bestComboCount = comboCount;
             }
         } else
         {
-            GameObject.Find("score/comboMultiplier").GetComponent<GUIText>().text = "";
-            GameObject.Find("score/comboMultiplier/comboShadow").GetComponent<GUIText>().text = "";
+            //GameObject.Find("score/comboMultiplier").GetComponent<GUIText>().text = "";
+            //GameObject.Find("score/comboMultiplier/comboShadow").GetComponent<GUIText>().text = "";
         }
     }
 

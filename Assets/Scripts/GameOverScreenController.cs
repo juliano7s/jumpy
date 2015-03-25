@@ -23,6 +23,7 @@ public class GameOverScreenController : MonoBehaviour
 
     private float pointsTimer = 0.1f;
     private float castleTimesTimer = 0.7f;
+
     private int score = 0;
     private AudioSource scorePointAudio;
     private int combo = 0;
@@ -83,6 +84,24 @@ public class GameOverScreenController : MonoBehaviour
         //comboValue.guiText.text = scoreScriptObject.bestComboCount.ToString();
         BestScoreText.GetComponent<TextMesh> ().text = bestScore.ToString ();
         BestComboText.GetComponent<TextMesh> ().text = bestCombo.ToString ();
+
+        Castle2Time.SetActive(false);
+        Castle3Time.SetActive(false);
+        Castle4Time.SetActive(false);
+        Castle5Time.SetActive(false);
+        Castle6Time.SetActive(false);
+
+        if (bestCastle2Time <= 0)
+            BestCastle2Time.SetActive(false);
+        if (bestCastle3Time <= 0)
+            BestCastle3Time.SetActive(false);
+        if (bestCastle4Time <= 0)
+            BestCastle4Time.SetActive(false);
+        if (bestCastle5Time <= 0)
+            BestCastle5Time.SetActive(false);
+        if (bestCastle6Time <= 0)
+            BestCastle6Time.SetActive(false);
+
         gameObject.SetActive (false);
     }
 
@@ -154,7 +173,7 @@ public class GameOverScreenController : MonoBehaviour
     {
         while (castleTimesTimer <= 0) {
             if (scoreScriptObject.castle2Time > 0 && Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
-                Debug.Log ("castle 2 time > 0");
+                Castle2Time.SetActive(true);
                 string displaySeconds = (scoreScriptObject.castle2Time % 60).ToString ("00");
                 string displayMinutes = Mathf.Floor (scoreScriptObject.castle2Time / 60).ToString ("00"); 
                 
@@ -164,13 +183,13 @@ public class GameOverScreenController : MonoBehaviour
 
                 if (scoreScriptObject.castle2Time < bestCastle2Time || bestCastle2Time <= 0) {
                     Debug.Log ("setting castle 2 time to best");
+                    BestCastle2Time.SetActive(true);
                     BestCastle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle2Time", scoreScriptObject.castle2Time);
                 }
-            }
-
-            if (scoreScriptObject.castle3Time > 0 && !Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
+            } else if (scoreScriptObject.castle3Time > 0 && !Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                 Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+                Castle3Time.SetActive(true);
                 string displaySeconds = (scoreScriptObject.castle3Time % 60).ToString ("00");
                 string displayMinutes = Mathf.Floor (scoreScriptObject.castle3Time / 60).ToString ("00"); 
                 
@@ -178,10 +197,59 @@ public class GameOverScreenController : MonoBehaviour
                 Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                 Castle3Time.GetComponent<AudioSource> ().Play ();
                 
-                if (scoreScriptObject.castle3Time > bestCastle3Time || bestCastle3Time <= 0) {
+                if (scoreScriptObject.castle3Time < bestCastle3Time || bestCastle3Time <= 0) {
                     Debug.Log ("setting castle 3 time to best");
+                    BestCastle3Time.SetActive(true);
                     BestCastle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle3Time", scoreScriptObject.castle3Time);
+                }
+            } else if (scoreScriptObject.castle4Time > 0 && !Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
+                       Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+                Castle4Time.SetActive(true);
+                string displaySeconds = (scoreScriptObject.castle4Time % 60).ToString ("00");
+                string displayMinutes = Mathf.Floor (scoreScriptObject.castle4Time / 60).ToString ("00"); 
+                
+                string text = displayMinutes + ":" + displaySeconds;
+                Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
+                Castle4Time.GetComponent<AudioSource> ().Play ();
+                
+                if (scoreScriptObject.castle4Time < bestCastle4Time || bestCastle4Time <= 0) {
+                    Debug.Log ("setting castle 3 time to best");
+                    BestCastle4Time.SetActive(true);
+                    BestCastle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
+                    PlayerPrefs.SetFloat ("BestCastle4Time", scoreScriptObject.castle4Time);
+                }
+            } else if (scoreScriptObject.castle5Time > 0 && !Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
+                       Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+                Castle5Time.SetActive(true);
+                string displaySeconds = (scoreScriptObject.castle5Time % 60).ToString ("00");
+                string displayMinutes = Mathf.Floor (scoreScriptObject.castle5Time / 60).ToString ("00"); 
+                
+                string text = displayMinutes + ":" + displaySeconds;
+                Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
+                Castle5Time.GetComponent<AudioSource> ().Play ();
+                
+                if (scoreScriptObject.castle5Time < bestCastle5Time || bestCastle5Time <= 0) {
+                    Debug.Log ("setting castle 3 time to best");
+                    BestCastle5Time.SetActive(true);
+                    BestCastle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
+                    PlayerPrefs.SetFloat ("BestCastle5Time", scoreScriptObject.castle5Time);
+                }
+            } else if (scoreScriptObject.castle6Time > 0 && !Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
+                       Castle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+                Castle6Time.SetActive(true);
+                string displaySeconds = (scoreScriptObject.castle6Time % 60).ToString ("00");
+                string displayMinutes = Mathf.Floor (scoreScriptObject.castle6Time / 60).ToString ("00"); 
+                
+                string text = displayMinutes + ":" + displaySeconds;
+                Castle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
+                Castle6Time.GetComponent<AudioSource> ().Play ();
+                
+                if (scoreScriptObject.castle6Time < bestCastle6Time || bestCastle6Time <= 0) {
+                    Debug.Log ("setting castle 3 time to best");
+                    BestCastle6Time.SetActive(true);
+                    BestCastle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
+                    PlayerPrefs.SetFloat ("BestCastle6Time", scoreScriptObject.castle6Time);
                 }
             }
 

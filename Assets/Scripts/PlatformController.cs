@@ -99,5 +99,6 @@ public class PlatformController : MonoBehaviour
             comboSign = (GameObject) Instantiate(comboSignPrefab, comboPosition, Quaternion.identity);
         }
         comboSign.transform.GetChild(0).GetComponent<TextMesh>().text = "x" + scoreScriptObject.comboCount;
+        comboSign.transform.GetChild(1).GetComponent<ParticleSystem>().Play(false);
     }
 }

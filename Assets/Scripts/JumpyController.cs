@@ -154,6 +154,6 @@ public class JumpyController : MonoBehaviour
 	void OnCollisionEnter2D (Collision2D collision)
 	{
 		ParticleSystem dustPS = transform.GetChild(2).GetComponent<ParticleSystem>();
-		dustPS.Emit(1);
+		dustPS.Play();
 	}
 }

@@ -18,6 +18,7 @@ public class PlatformSpawner : MonoBehaviour {
 
     private GameObject lastSpawnedPlatform;
     private Queue platformQueue;
+    private int platformCount = 0;
     public GameObject nextPlatformArrow;
 
 	private GameObject lastSpawnedCastle;
@@ -87,46 +88,49 @@ public class PlatformSpawner : MonoBehaviour {
 		Debug.Log("score before spawning: " + scoreScriptObject.score);
 		bool castleSpawned = false;
 
-		if (scoreScriptObject.score >= 5 && castle2 == null)
+		if (platformCount >= 5 && castle2 == null)
 		{
 			Debug.Log("Reached castle 2, sending to position: " + position); 
 			castle2 = GameObject.Find("castle2");
-			castle2.transform.position = new Vector3(position.x, position.y, castle2.transform.position.z);
-			platformPrefab = platformMediumPrefab;
+			castle2.transform.position = new Vector3(position.x + 5, position.y, castle2.transform.position.z);
+			
 			lastSpawnedCastle = castle2;
 			castleSpawned = true;
 		}
 
-		if (scoreScriptObject.score >= 20 && castle3 == null)
+        if (platformCount >= 15 && castle3 == null)
 		{
 			Debug.Log("Reached castle 3, sending to position: " + position);
 			castle3 = GameObject.Find("castle3");
-			castle3.transform.position = new Vector3(position.x, position.y, castle2.transform.position.z);
-			platformPrefab = platformSmallPrefab;
+            castle3.transform.position = new Vector3(position.x + platformDistance / 2, position.y, castle2.transform.position.z);
+            platformPrefab = platformMediumPrefab;
+            platformDistance = 35.5f;
 			lastSpawnedCastle = castle3;
 			castleSpawned = true;
 		}
 
-		if (scoreScriptObject.score >= 30 && castle4 == null)
+        if (platformCount >= 25 && castle4 == null)
 		{
 			castle4 = GameObject.Find("castle4");
-			castle4.transform.position = new Vector3(position.x, position.y, castle2.transform.position.z);
+            castle4.transform.position = new Vector3(position.x + platformDistance / 2, position.y, castle2.transform.position.z);
 			lastSpawnedCastle = castle4;
 			castleSpawned = true;
 		}
 
-		if (scoreScriptObject.score >= 40 && castle5 == null)
+        if (platformCount >= 35 && castle5 == null)
 		{
 			castle5 = GameObject.Find("castle5");
-			castle5.transform.position = new Vector3(position.x, position.y, castle2.transform.position.z);
-			lastSpawnedCastle = castle5;
+            castle5.transform.position = new Vector3(position.x + platformDistance / 2, position.y, castle2.transform.position.z);
+            platformPrefab = platformSmallPrefab;
+            platformDistance = 25.5f;
+            lastSpawnedCastle = castle5;
 			castleSpawned = true;
 		}
 
-		if (scoreScriptObject.score >= 50 && castle6 == null)
+        if (platformCount >= 45 && castle6 == null)
 		{
 			castle6 = GameObject.Find("castle6");
-			castle6.transform.position = new Vector3(position.x, position.y, castle2.transform.position.z);
+            castle6.transform.position = new Vector3(position.x + platformDistance / 2, position.y, castle2.transform.position.z);
 			lastSpawnedCastle = castle6;
 			castleSpawned = true;
 		}
@@ -138,6 +142,7 @@ public class PlatformSpawner : MonoBehaviour {
 				lastSpawnedCastle = null;
 			}
 			lastSpawnedPlatform = (GameObject)Instantiate (platformPrefab, position, Quaternion.identity);
+            platformCount++;
 
 			Debug.Log ("Spawning platforms at : " + position);
 			Debug.Log ("xCameraBoundary is at: " + xCameraBoundary);

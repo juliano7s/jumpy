@@ -1,4 +1,5 @@
 using UnityEngine;
+using GooglePlayGames;
 using System.Collections;
 
 public class GameOverScreenController : MonoBehaviour
@@ -147,6 +148,9 @@ public class GameOverScreenController : MonoBehaviour
             Debug.Log ("setting score to best");
             BestScoreText.GetComponent<TextMesh> ().text = score.ToString ();
             PlayerPrefs.SetInt ("BestScore", Mathf.Max (score, bestScore));
+            Social.ReportScore(Mathf.Max (score, bestScore), "CgkI5dWk2_MQEAIQAA", (bool success) => {
+                // handle success or failure
+            });
         }
     }
 
@@ -168,6 +172,9 @@ public class GameOverScreenController : MonoBehaviour
             Debug.Log ("setting combo to best");
             BestComboText.GetComponent<TextMesh> ().text = combo.ToString ();
             PlayerPrefs.SetInt ("BestCombo", Mathf.Max (combo, bestCombo));
+            Social.ReportScore(Mathf.Max (combo, bestCombo), "CgkI5dWk2_MQEAIQBw", (bool success) => {
+                // handle success or failure
+            });
         }
     }
 
@@ -188,6 +195,9 @@ public class GameOverScreenController : MonoBehaviour
                     BestCastle2Time.SetActive(true);
                     BestCastle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle2Time", scoreScriptObject.castle2Time);
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle2Time * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {
+                        // handle success or failure
+                    });
                 }
             } else if (scoreScriptObject.castle3Time > 0 && !Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                     Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
@@ -204,6 +214,9 @@ public class GameOverScreenController : MonoBehaviour
                     BestCastle3Time.SetActive(true);
                     BestCastle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle3Time", scoreScriptObject.castle3Time);
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle3Time * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {
+                        // handle success or failure
+                    });
                 }
             } else if (scoreScriptObject.castle4Time > 0 && !Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                     Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
@@ -220,6 +233,9 @@ public class GameOverScreenController : MonoBehaviour
                     BestCastle4Time.SetActive(true);
                     BestCastle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle4Time", scoreScriptObject.castle4Time);
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle4Time * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {
+                        // handle success or failure
+                    });
                 }
             } else if (scoreScriptObject.castle5Time > 0 && !Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                        Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
@@ -236,6 +252,9 @@ public class GameOverScreenController : MonoBehaviour
                     BestCastle5Time.SetActive(true);
                     BestCastle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle5Time", scoreScriptObject.castle5Time);
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle5Time * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {
+                        // handle success or failure
+                    });
                 }
             } else if (scoreScriptObject.castle6Time > 0 && !Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                        Castle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
@@ -252,6 +271,9 @@ public class GameOverScreenController : MonoBehaviour
                     BestCastle6Time.SetActive(true);
                     BestCastle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle6Time", scoreScriptObject.castle6Time);
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle6Time * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {
+                        // handle success or failure
+                    });
                 }
             }
 

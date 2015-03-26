@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 public class JumpyAiController : MonoBehaviour
 {
@@ -19,12 +20,22 @@ public class JumpyAiController : MonoBehaviour
     private float prepareJumpTimer = PREPARE_JUMP_TIMER_TIME;
     public Animator anim;
 
+    public GameObject googlePlayDebug;
+
     // Use this for initialization
     void Start ()
     {
         anim = GetComponent<Animator>();
-    }
 
+        //googlePlayDebug.GetComponent<TextMesh>().text = "authenticating on google play";
+        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.Activate();
+        Social.localUser.Authenticate((bool success) => {
+            Debug.Log("User authenticate google play games: " + success);
+            //googlePlayDebug.GetComponent<TextMesh>().text = "User authenticate google play games: " + success;
+        });
+    }
+    
     void Update() {
         // get the main camera's GUILayer:
         GUILayer gLayer = Camera.main.GetComponent< GUILayer>();
@@ -41,6 +52,11 @@ public class JumpyAiController : MonoBehaviour
                 }
             }
         }
+    }
+
+    void OnLevelWasLoaded(int level)
+    {
+
     }
     
     // Update is called once per frame

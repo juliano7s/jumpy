@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 public class ButtonController : MonoBehaviour {
 
@@ -17,11 +19,14 @@ public class ButtonController : MonoBehaviour {
         Debug.Log("Mouse down on " + transform.name);
         if (transform.name == "play")
             Application.LoadLevel("Main");
-        else if (transform.name == "rank")
+        else if (transform.name == "rank") {
             Debug.Log("Open rank");
-        else if (transform.name == "menu")
+            Social.ShowLeaderboardUI();
+        } else if (transform.name == "menu")
             Application.LoadLevel("Start");
-        else if (transform.name == "rate")
+        else if (transform.name == "rate") {
             Debug.Log("Open rate");
+            Application.OpenURL("market://details?id=com.creationguts.jumpy/");
+        }
     }
 }

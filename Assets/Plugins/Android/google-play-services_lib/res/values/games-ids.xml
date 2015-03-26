@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+  <string name="app_id">580817332965</string>
+  <string name="leaderboard_best_score">CgkI5dWk2_MQEAIQAA</string>
+  <string name="leaderboard_best_combo">CgkI5dWk2_MQEAIQBw</string>
+  <string name="leaderboard_castle_2_time">CgkI5dWk2_MQEAIQAg</string>
+  <string name="leaderboard_castle_3_time">CgkI5dWk2_MQEAIQAw</string>
+  <string name="leaderboard_castle_4_time">CgkI5dWk2_MQEAIQBA</string>
+  <string name="leaderboard_castle_5_time">CgkI5dWk2_MQEAIQBQ</string>
+  <string name="leaderboard_castle_6_time">CgkI5dWk2_MQEAIQBg</string>
+</resources>

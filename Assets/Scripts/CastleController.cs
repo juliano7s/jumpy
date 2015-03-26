@@ -41,6 +41,8 @@ public class CastleController : MonoBehaviour {
     {
         // Increases score
         if (collision.gameObject.tag == "Player") {             
+            Debug.Log("Time: " + timerScriptObject.currentTime);
+            Debug.Log("Time Long: " + Mathf.FloorToInt(timerScriptObject.currentTime));
             if (GetComponent<BoxCollider2D>().IsTouching(collision.collider) && !hasScored) {
                 GetComponent<AudioSource> ().Play ();
                 if (transform.name.Equals("castle2")) {

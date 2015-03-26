@@ -8,6 +8,7 @@ public class GameOverScreenController : MonoBehaviour
 
     public GameObject ScoreText;
     public GameObject ComboText;
+    public GameObject ComboSign;
     public GameObject BestScoreText;
     public GameObject BestComboText;
     public GameObject Castle2Time;
@@ -153,8 +154,9 @@ public class GameOverScreenController : MonoBehaviour
     {
         while (combo < scoreScriptObject.bestComboCount && pointsTimer <= 0) {
             //Vector3 pointPosition = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
-            Vector3 pointPosition = new Vector3 (ComboText.transform.position.x, ComboText.transform.position.y, transform.position.z);
-            Instantiate (SimplePointPrefab, pointPosition, Quaternion.identity);
+            //Vector3 pointPosition = new Vector3 (ComboText.transform.position.x, ComboText.transform.position.y, transform.position.z);
+            //Instantiate (SimplePointPrefab, pointPosition, Quaternion.identity);
+            ComboSign.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
             comboPointAudio.Play ();
             combo++;
             ComboText.GetComponent<TextMesh> ().text = combo.ToString ();
@@ -188,7 +190,7 @@ public class GameOverScreenController : MonoBehaviour
                     PlayerPrefs.SetFloat ("BestCastle2Time", scoreScriptObject.castle2Time);
                 }
             } else if (scoreScriptObject.castle3Time > 0 && !Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
-                Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+                    Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
                 Castle3Time.SetActive(true);
                 string displaySeconds = (scoreScriptObject.castle3Time % 60).ToString ("00");
                 string displayMinutes = Mathf.Floor (scoreScriptObject.castle3Time / 60).ToString ("00"); 
@@ -204,7 +206,7 @@ public class GameOverScreenController : MonoBehaviour
                     PlayerPrefs.SetFloat ("BestCastle3Time", scoreScriptObject.castle3Time);
                 }
             } else if (scoreScriptObject.castle4Time > 0 && !Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
-                       Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+                    Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
                 Castle4Time.SetActive(true);
                 string displaySeconds = (scoreScriptObject.castle4Time % 60).ToString ("00");
                 string displayMinutes = Mathf.Floor (scoreScriptObject.castle4Time / 60).ToString ("00"); 

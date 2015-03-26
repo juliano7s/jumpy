@@ -29,6 +29,7 @@ public class JumpyController : MonoBehaviour
     private bool mouseIsHoldedDown;
 
     public Animator anim;
+    public Animator SpeechAnimator;
     
     public GUIText jumpDebugGuiText;
 
@@ -46,8 +47,30 @@ public class JumpyController : MonoBehaviour
 #endif
         jumpMultiplierY = JUMP_MULTIPLIER;
         jumpMultiplierX = JUMP_MULTIPLIER;
+
+        bool isFirstTime = PlayerPrefs.GetInt("FirstTime") > 0 ? false : true;
+        if (isFirstTime) {
+            SpeechAnimator.SetBool("showTutorial", true);
+            PlayerPrefs.SetInt("FirstTime", 1);
+        } else {
+            int speak = Random.Range(1,2);
+            if (speak == 1) {
+                SpeechAnimator.SetBool("speak", true);
+            }
+        }
     }
-    
+
+    void OnLevelWasLoaded(int level)
+    {
+        Debug.Log ("Level " + level + " loaded.");
+        if (level == 1) {
+            int speak = Random.Range(1,10);
+            if (speak == 1) {
+                SpeechAnimator.SetBool("speak", true);
+            }
+        }
+    }
+        
     void FixedUpdate()
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, GROUND_RADIUS, whatIsGround);
@@ -155,5 +178,15 @@ public class JumpyController : MonoBehaviour
 	{
 		ParticleSystem dustPS = transform.GetChild(2).GetComponent<ParticleSystem>();
 		dustPS.Play();
+
+        if (collision.gameObject.transform.tag.Equals("Castle")) {
+            if (collision.gameObject.transform.name.Equals("castle6")) {
+                SpeechAnimator.SetBool("castleFinal", true);
+                SpeechAnimator.SetBool("speak", true);
+            } else {
+                SpeechAnimator.SetBool("castle", true);
+                SpeechAnimator.SetBool("speak", true);
+            }
+        }
 	}
 }

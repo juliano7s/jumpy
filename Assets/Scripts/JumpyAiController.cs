@@ -28,7 +28,7 @@ public class JumpyAiController : MonoBehaviour
         anim = GetComponent<Animator>();
 
         //googlePlayDebug.GetComponent<TextMesh>().text = "authenticating on google play";
-        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.DebugLogEnabled = false;
         PlayGamesPlatform.Activate();
         Social.localUser.Authenticate((bool success) => {
             Debug.Log("User authenticate google play games: " + success);

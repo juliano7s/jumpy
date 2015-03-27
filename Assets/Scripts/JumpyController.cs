@@ -23,7 +23,7 @@ public class JumpyController : MonoBehaviour
     public GameObject jumpArrow;
     public GameObject jumpArrowBody;
     public GameObject jumpArrowHead;
-    
+
     private Queue<Vector2> jumpCommands;       //jump commands queue
     private Queue<bool> jumpCombos;
     private bool mouseIsHoldedDown;
@@ -53,7 +53,7 @@ public class JumpyController : MonoBehaviour
             SpeechAnimator.SetBool("showTutorial", true);
             PlayerPrefs.SetInt("FirstTime", 1);
         } else {
-            int speak = Random.Range(1,2);
+            int speak = Random.Range(1,6);
             if (speak == 1) {
                 SpeechAnimator.SetBool("speak", true);
             }
@@ -64,7 +64,8 @@ public class JumpyController : MonoBehaviour
     {
         Debug.Log ("Level " + level + " loaded.");
         if (level == 1) {
-            int speak = Random.Range(1,10);
+            int speak = Random.Range(1,6);
+            Debug.Log ("speak =  " + speak);
             if (speak == 1) {
                 SpeechAnimator.SetBool("speak", true);
             }
@@ -179,7 +180,7 @@ public class JumpyController : MonoBehaviour
 		ParticleSystem dustPS = transform.GetChild(2).GetComponent<ParticleSystem>();
 		dustPS.Play();
 
-        if (collision.gameObject.transform.tag.Equals("Castle")) {
+        if (collision.gameObject.transform.tag.Equals("Castle") && collision.collider.GetType().ToString().Equals("UnityEngine.BoxCollider2D")) {
             if (collision.gameObject.transform.name.Equals("castle6")) {
                 SpeechAnimator.SetBool("castleFinal", true);
                 SpeechAnimator.SetBool("speak", true);

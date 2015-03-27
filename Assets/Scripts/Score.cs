@@ -8,11 +8,11 @@ public class Score : MonoBehaviour {
     public int comboCount = 0;
     private int previousScore = -1;          // The score in the previous frame.
 
-    public float castle2Time;
-    public float castle3Time;
-    public float castle4Time;
-    public float castle5Time;
-    public float castle6Time;
+    public float castle2Time = 0;
+    public float castle3Time = 0;
+    public float castle4Time = 0;
+    public float castle5Time = 0;
+    public float castle6Time = 0;
 
 
     void Start()

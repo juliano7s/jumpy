@@ -1,6 +1,7 @@
 using UnityEngine;
 using GooglePlayGames;
 using System.Collections;
+using GoogleMobileAds.Api;
 
 public class GameOverScreenController : MonoBehaviour
 {
@@ -39,7 +40,9 @@ public class GameOverScreenController : MonoBehaviour
     private float bestCastle4Time;
     private float bestCastle5Time;
     private float bestCastle6Time;
+    private bool scoresSent = false;
 
+    private BannerView bannerView;
 
     // Use this for initialization
     void Start ()
@@ -109,7 +112,23 @@ public class GameOverScreenController : MonoBehaviour
 
     void OnEnable ()
     {
+        Debug.Log("Enabling game over");
         transform.position = new Vector3 (Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
+        RequestBanner();
+        bannerView.Show();
+        scoresSent = false;
+    }
+
+    void OnDisable ()
+    {
+        Debug.Log("Disabling game over");
+        bannerView.Hide();
+    }
+
+    void OnDestroy()
+    {
+        bannerView.Destroy();
+        bannerView = null;
     }
 
     // Update is called once per frame
@@ -118,8 +137,36 @@ public class GameOverScreenController : MonoBehaviour
         if (gameObject.activeSelf) {
             pointsTimer -= Time.deltaTime;
 
-            StartCoroutine ("CountScore");
-            StartCoroutine ("CountCombo");
+            if (!scoresSent) {
+                Debug.Log("Sending scores to google play");
+                Social.ReportScore(scoreScriptObject.score, "CgkI5dWk2_MQEAIQAA", (bool success) => {});
+                Social.ReportScore(scoreScriptObject.bestComboCount, "CgkI5dWk2_MQEAIQBw", (bool success) => {});
+                if (scoreScriptObject.castle2Time > 0) {
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle2Time * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {});
+                }
+                if (scoreScriptObject.castle3Time > 0) {
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle3Time * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {});
+                }
+                if (scoreScriptObject.castle4Time > 0) {
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle4Time * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {});
+                }
+                if (scoreScriptObject.castle5Time > 0) {
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle5Time * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {});
+                }
+                if (scoreScriptObject.castle6Time > 0) {
+                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle6Time * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {});
+                }
+
+                scoresSent = true;
+            }
+
+            if (score < scoreScriptObject.score) {
+                StartCoroutine ("CountScore");
+            }
+
+            if (combo < scoreScriptObject.bestComboCount) {
+                StartCoroutine ("CountCombo");
+            }
 
             if (score == scoreScriptObject.score && combo == scoreScriptObject.bestComboCount) {
                 castleTimesTimer -= Time.deltaTime;
@@ -148,9 +195,6 @@ public class GameOverScreenController : MonoBehaviour
             Debug.Log ("setting score to best");
             BestScoreText.GetComponent<TextMesh> ().text = score.ToString ();
             PlayerPrefs.SetInt ("BestScore", Mathf.Max (score, bestScore));
-            Social.ReportScore(Mathf.Max (score, bestScore), "CgkI5dWk2_MQEAIQAA", (bool success) => {
-                // handle success or failure
-            });
         }
     }
 
@@ -162,19 +206,17 @@ public class GameOverScreenController : MonoBehaviour
             //Instantiate (SimplePointPrefab, pointPosition, Quaternion.identity);
             ComboSign.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
             comboPointAudio.Play ();
+            Debug.Log("Counting combos: " + combo);
             combo++;
             ComboText.GetComponent<TextMesh> ().text = combo.ToString ();
             pointsTimer = 0.1f;
             yield return null;
         }
 
-        if (combo > bestCombo && combo == scoreScriptObject.comboCount && int.Parse (BestComboText.GetComponent<TextMesh> ().text) < combo) {
+        if (combo > bestCombo && combo == scoreScriptObject.comboCount) {
             Debug.Log ("setting combo to best");
             BestComboText.GetComponent<TextMesh> ().text = combo.ToString ();
             PlayerPrefs.SetInt ("BestCombo", Mathf.Max (combo, bestCombo));
-            Social.ReportScore(Mathf.Max (combo, bestCombo), "CgkI5dWk2_MQEAIQBw", (bool success) => {
-                // handle success or failure
-            });
         }
     }
 
@@ -195,9 +237,6 @@ public class GameOverScreenController : MonoBehaviour
                     BestCastle2Time.SetActive(true);
                     BestCastle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle2Time", scoreScriptObject.castle2Time);
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle2Time * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {
-                        // handle success or failure
-                    });
                 }
             } else if (scoreScriptObject.castle3Time > 0 && !Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                     Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
@@ -214,9 +253,6 @@ public class GameOverScreenController : MonoBehaviour
                     BestCastle3Time.SetActive(true);
                     BestCastle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle3Time", scoreScriptObject.castle3Time);
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle3Time * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {
-                        // handle success or failure
-                    });
                 }
             } else if (scoreScriptObject.castle4Time > 0 && !Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                     Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
@@ -229,13 +265,10 @@ public class GameOverScreenController : MonoBehaviour
                 Castle4Time.GetComponent<AudioSource> ().Play ();
                 
                 if (scoreScriptObject.castle4Time < bestCastle4Time || bestCastle4Time <= 0) {
-                    Debug.Log ("setting castle 3 time to best");
+                    Debug.Log ("setting castle 4 time to best");
                     BestCastle4Time.SetActive(true);
                     BestCastle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle4Time", scoreScriptObject.castle4Time);
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle4Time * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {
-                        // handle success or failure
-                    });
                 }
             } else if (scoreScriptObject.castle5Time > 0 && !Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                        Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
@@ -248,13 +281,10 @@ public class GameOverScreenController : MonoBehaviour
                 Castle5Time.GetComponent<AudioSource> ().Play ();
                 
                 if (scoreScriptObject.castle5Time < bestCastle5Time || bestCastle5Time <= 0) {
-                    Debug.Log ("setting castle 3 time to best");
+                    Debug.Log ("setting castle 5 time to best");
                     BestCastle5Time.SetActive(true);
                     BestCastle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle5Time", scoreScriptObject.castle5Time);
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle5Time * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {
-                        // handle success or failure
-                    });
                 }
             } else if (scoreScriptObject.castle6Time > 0 && !Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
                        Castle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
@@ -267,17 +297,39 @@ public class GameOverScreenController : MonoBehaviour
                 Castle6Time.GetComponent<AudioSource> ().Play ();
                 
                 if (scoreScriptObject.castle6Time < bestCastle6Time || bestCastle6Time <= 0) {
-                    Debug.Log ("setting castle 3 time to best");
+                    Debug.Log ("setting castle 6 time to best");
                     BestCastle6Time.SetActive(true);
                     BestCastle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
                     PlayerPrefs.SetFloat ("BestCastle6Time", scoreScriptObject.castle6Time);
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle6Time * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {
-                        // handle success or failure
-                    });
                 }
             }
 
             castleTimesTimer = 0.7f;
+        }
+    }
+
+    private void RequestBanner()
+    {
+        #if UNITY_ANDROID
+        string adUnitId = "ca-app-pub-4495286146662458/1010416125";
+        #elif UNITY_IPHONE
+        string adUnitId = "INSERT_IOS_BANNER_AD_UNIT_ID_HERE";
+        #else
+        string adUnitId = "unexpected_platform";
+        #endif
+
+        Debug.Log("REQUESTING AD BANNER");
+        if (bannerView == null) {
+            // Create a 320x50 banner at the top of the screen.
+            bannerView = new BannerView (adUnitId, AdSize.Banner, AdPosition.Bottom);
+            // Create an empty ad request.
+            //AdRequest request = new AdRequest.Builder().Build();
+            AdRequest request = new AdRequest.Builder ()
+                //.AddTestDevice (AdRequest.TestDeviceSimulator)       // Simulator.
+                .AddTestDevice ("75ABC2944FDBB5E13BA1723DEBA591F7")  // My Nexus 4 device
+                .Build ();
+            // Load the banner with the request.
+            bannerView.LoadAd (request);
         }
     }
 

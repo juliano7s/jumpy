@@ -59,6 +59,7 @@ public class PlatformController : MonoBehaviour
     void OnCollisionEnter2D (Collision2D collision)
     {
         // Increases score
+        Debug.Log("Platform collided");
         if (collision.gameObject.tag == "Player") {				
             if (!hasScored) {
                 scoreScriptObject.score++;

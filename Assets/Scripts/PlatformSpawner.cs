@@ -13,7 +13,7 @@ public class PlatformSpawner : MonoBehaviour {
     public Transform player;
     public float newSpawnXThreshold = 100f; //threshold to spawn a new platform in relation to X boundary of the camera
     public float yPositionRangeBottom = 0f, yPositionRangeTop = 30f;
-	private float platformDistance = 45.5f;
+	private float platformDistance = 40.0f;
     private float xCameraBoundary;
 
     private GameObject lastSpawnedPlatform;
@@ -46,7 +46,7 @@ public class PlatformSpawner : MonoBehaviour {
             //Debug.Log("Instantiating platform from prefab: " + platformPrefab);
             //Debug.Log("--- collider scale: " + ((BoxCollider2D) platformPrefab.collider2D).size);
 			//Vector2 platformSize = ((BoxCollider2D) platformPrefab.GetComponent<Collider2D>()).size;
-            float yRandom = i == 1 ? player.position.y - 10 : Random.Range(yPositionRangeBottom, yPositionRangeTop);
+            float yRandom = i == 1 ? player.position.y - 12 : Random.Range(yPositionRangeBottom, yPositionRangeTop);
             Vector2 position = new Vector2(lastSpawnedPosition + platformDistance, yRandom);
 			lastSpawnedPosition += platformDistance;
             SpawnPlatform(position);
@@ -92,7 +92,7 @@ public class PlatformSpawner : MonoBehaviour {
 		{			
 			castle2 = GameObject.Find("castle2");
 			castle2.transform.position = new Vector3(position.x + 5, position.y, castle2.transform.position.z);
-			
+            platformDistance = 45.0f;
 			lastSpawnedCastle = castle2;
 			castleSpawned = true;
 		}
@@ -102,7 +102,7 @@ public class PlatformSpawner : MonoBehaviour {
 			castle3 = GameObject.Find("castle3");
             castle3.transform.position = new Vector3(position.x + platformDistance / 2, position.y, castle2.transform.position.z);
             platformPrefab = platformMediumPrefab;
-            platformDistance = 35.5f;
+            platformDistance = 30.0f;
 			lastSpawnedCastle = castle3;
 			castleSpawned = true;
 		}
@@ -111,6 +111,7 @@ public class PlatformSpawner : MonoBehaviour {
 		{
 			castle4 = GameObject.Find("castle4");
             castle4.transform.position = new Vector3(position.x + platformDistance / 2, position.y, castle2.transform.position.z);
+            platformDistance = 35.0f;
 			lastSpawnedCastle = castle4;
 			castleSpawned = true;
 		}
@@ -120,7 +121,7 @@ public class PlatformSpawner : MonoBehaviour {
 			castle5 = GameObject.Find("castle5");
             castle5.transform.position = new Vector3(position.x + platformDistance / 2, position.y, castle2.transform.position.z);
             platformPrefab = platformSmallPrefab;
-            platformDistance = 25.5f;
+            platformDistance = 25.0f;
             lastSpawnedCastle = castle5;
 			castleSpawned = true;
 		}

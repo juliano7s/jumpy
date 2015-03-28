@@ -14,9 +14,11 @@ public class ButtonController : MonoBehaviour {
         if (sound) {
             SoundOff.GetComponent<SpriteRenderer>().enabled = false;
             SoundOn.GetComponent<SpriteRenderer>().enabled = true;
+            AudioListener.volume = 1.0f;
         } else {
             SoundOff.GetComponent<SpriteRenderer>().enabled = true;
             SoundOn.GetComponent<SpriteRenderer>().enabled = false;
+            AudioListener.volume = 0.0f;
         }
 	}
 	

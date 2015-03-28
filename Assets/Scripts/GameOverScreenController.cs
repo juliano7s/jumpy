@@ -11,8 +11,8 @@ public class GameOverScreenController : MonoBehaviour
     public GameObject ScoreText;
     public GameObject ComboText;
     public GameObject ComboSign;
-    public GameObject BestScoreText;
-    public GameObject BestComboText;
+    public GameObject BestScore;
+    public GameObject BestCombo;
     public GameObject Castle2Time;
     public GameObject Castle3Time;
     public GameObject Castle4Time;
@@ -40,7 +40,6 @@ public class GameOverScreenController : MonoBehaviour
     private float bestCastle4Time;
     private float bestCastle5Time;
     private float bestCastle6Time;
-    private bool scoresSent = false;
 
     private BannerView bannerView;
 
@@ -85,10 +84,8 @@ public class GameOverScreenController : MonoBehaviour
         
         BestCastle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text = displayMinutes + ":" + displaySeconds;
 
-        //scoreValue.guiText.text = scoreScriptObject.score.ToString();
-        //comboValue.guiText.text = scoreScriptObject.bestComboCount.ToString();
-        BestScoreText.GetComponent<TextMesh> ().text = bestScore.ToString ();
-        BestComboText.GetComponent<TextMesh> ().text = bestCombo.ToString ();
+        BestScore.transform.GetChild(0).GetComponent<TextMesh> ().text = bestScore.ToString ();
+        BestCombo.transform.GetChild(0).GetComponent<TextMesh> ().text = bestCombo.ToString ();
 
         Castle2Time.SetActive(false);
         Castle3Time.SetActive(false);
@@ -113,15 +110,38 @@ public class GameOverScreenController : MonoBehaviour
     void OnEnable ()
     {
         Debug.Log("Enabling game over");
+        PlayerPrefs.SetInt("BestScore", Mathf.Max(scoreScriptObject.score, bestScore));
+        PlayerPrefs.SetInt("BestCombo", Mathf.Max(scoreScriptObject.bestComboCount, bestCombo));
+
+        setBestCastleTimes();
+
         transform.position = new Vector3 (Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
         RequestBanner();
         bannerView.Show();
-        scoresSent = false;
     }
 
     void OnDisable ()
     {
-        Debug.Log("Disabling game over");
+        Debug.Log("Disabling game over");       
+        Social.ReportScore(PlayerPrefs.GetInt("BestScore"), "CgkI5dWk2_MQEAIQDg", (bool success) => {});
+        Social.ReportScore(PlayerPrefs.GetInt("BestCombo"), "CgkI5dWk2_MQEAIQBw", (bool success) => {});
+
+        if (PlayerPrefs.GetFloat("BestCastle2Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle2Time") * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {});
+        }
+        if (PlayerPrefs.GetFloat("BestCastle3Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle3Time") * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {});
+        }
+        if (PlayerPrefs.GetFloat("BestCastle4Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle4Time") * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {});
+        }
+        if (PlayerPrefs.GetFloat("BestCastle5Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle5Time") * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {});
+        }
+        if (PlayerPrefs.GetFloat("BestCastle6Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle6Time") * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {});
+        }
+
         bannerView.Hide();
     }
 
@@ -136,29 +156,6 @@ public class GameOverScreenController : MonoBehaviour
     {
         if (gameObject.activeSelf) {
             pointsTimer -= Time.deltaTime;
-
-            if (!scoresSent) {
-                Debug.Log("Sending scores to google play");
-                Social.ReportScore(scoreScriptObject.score, "CgkI5dWk2_MQEAIQAA", (bool success) => {});
-                Social.ReportScore(scoreScriptObject.bestComboCount, "CgkI5dWk2_MQEAIQBw", (bool success) => {});
-                if (scoreScriptObject.castle2Time > 0) {
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle2Time * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {});
-                }
-                if (scoreScriptObject.castle3Time > 0) {
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle3Time * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {});
-                }
-                if (scoreScriptObject.castle4Time > 0) {
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle4Time * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {});
-                }
-                if (scoreScriptObject.castle5Time > 0) {
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle5Time * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {});
-                }
-                if (scoreScriptObject.castle6Time > 0) {
-                    Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle6Time * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {});
-                }
-
-                scoresSent = true;
-            }
 
             if (score < scoreScriptObject.score) {
                 StartCoroutine ("CountScore");
@@ -191,19 +188,17 @@ public class GameOverScreenController : MonoBehaviour
             yield return null;
         }
 
-        if (score > bestScore && score == scoreScriptObject.score && int.Parse (BestScoreText.GetComponent<TextMesh> ().text) < score) {
+        if (score > bestScore && score == scoreScriptObject.score && int.Parse (BestScore.transform.GetChild(0).GetComponent<TextMesh> ().text) < score) {
             Debug.Log ("setting score to best");
-            BestScoreText.GetComponent<TextMesh> ().text = score.ToString ();
-            PlayerPrefs.SetInt ("BestScore", Mathf.Max (score, bestScore));
+            BestScore.transform.GetChild(0).GetComponent<TextMesh> ().text = score.ToString ();
+            PlayerPrefs.SetInt ("BestScore", score);
+            bestScore = score;
         }
     }
 
     IEnumerator CountCombo ()
     {
         while (combo < scoreScriptObject.bestComboCount && pointsTimer <= 0) {
-            //Vector3 pointPosition = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
-            //Vector3 pointPosition = new Vector3 (ComboText.transform.position.x, ComboText.transform.position.y, transform.position.z);
-            //Instantiate (SimplePointPrefab, pointPosition, Quaternion.identity);
             ComboSign.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
             comboPointAudio.Play ();
             Debug.Log("Counting combos: " + combo);
@@ -213,10 +208,11 @@ public class GameOverScreenController : MonoBehaviour
             yield return null;
         }
 
-        if (combo > bestCombo && combo == scoreScriptObject.comboCount) {
+        if (combo > bestCombo && combo == scoreScriptObject.bestComboCount) {
             Debug.Log ("setting combo to best");
-            BestComboText.GetComponent<TextMesh> ().text = combo.ToString ();
-            PlayerPrefs.SetInt ("BestCombo", Mathf.Max (combo, bestCombo));
+            BestCombo.transform.GetChild(0).GetComponent<TextMesh> ().text = combo.ToString ();
+            PlayerPrefs.SetInt ("BestCombo", combo);
+            bestCombo = combo;
         }
     }
 
@@ -224,90 +220,99 @@ public class GameOverScreenController : MonoBehaviour
     {
         while (castleTimesTimer <= 0) {
             if (scoreScriptObject.castle2Time > 0 && Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
-                Castle2Time.SetActive(true);
-                string displaySeconds = (scoreScriptObject.castle2Time % 60).ToString ("00");
-                string displayMinutes = Mathf.Floor (scoreScriptObject.castle2Time / 60).ToString ("00"); 
-                
-                string text = displayMinutes + ":" + displaySeconds;
-                Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                Castle2Time.GetComponent<AudioSource> ().Play ();
 
-                if (scoreScriptObject.castle2Time < bestCastle2Time || bestCastle2Time <= 0) {
-                    Debug.Log ("setting castle 2 time to best");
-                    BestCastle2Time.SetActive(true);
-                    BestCastle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                    PlayerPrefs.SetFloat ("BestCastle2Time", scoreScriptObject.castle2Time);
-                }
-            } else if (scoreScriptObject.castle3Time > 0 && !Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
-                    Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
-                Castle3Time.SetActive(true);
-                string displaySeconds = (scoreScriptObject.castle3Time % 60).ToString ("00");
-                string displayMinutes = Mathf.Floor (scoreScriptObject.castle3Time / 60).ToString ("00"); 
-                
-                string text = displayMinutes + ":" + displaySeconds;
-                Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                Castle3Time.GetComponent<AudioSource> ().Play ();
-                
-                if (scoreScriptObject.castle3Time < bestCastle3Time || bestCastle3Time <= 0) {
-                    Debug.Log ("setting castle 3 time to best");
-                    BestCastle3Time.SetActive(true);
-                    BestCastle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                    PlayerPrefs.SetFloat ("BestCastle3Time", scoreScriptObject.castle3Time);
-                }
-            } else if (scoreScriptObject.castle4Time > 0 && !Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
-                    Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
-                Castle4Time.SetActive(true);
-                string displaySeconds = (scoreScriptObject.castle4Time % 60).ToString ("00");
-                string displayMinutes = Mathf.Floor (scoreScriptObject.castle4Time / 60).ToString ("00"); 
-                
-                string text = displayMinutes + ":" + displaySeconds;
-                Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                Castle4Time.GetComponent<AudioSource> ().Play ();
-                
-                if (scoreScriptObject.castle4Time < bestCastle4Time || bestCastle4Time <= 0) {
-                    Debug.Log ("setting castle 4 time to best");
-                    BestCastle4Time.SetActive(true);
-                    BestCastle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                    PlayerPrefs.SetFloat ("BestCastle4Time", scoreScriptObject.castle4Time);
-                }
-            } else if (scoreScriptObject.castle5Time > 0 && !Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
-                       Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
-                Castle5Time.SetActive(true);
-                string displaySeconds = (scoreScriptObject.castle5Time % 60).ToString ("00");
-                string displayMinutes = Mathf.Floor (scoreScriptObject.castle5Time / 60).ToString ("00"); 
-                
-                string text = displayMinutes + ":" + displaySeconds;
-                Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                Castle5Time.GetComponent<AudioSource> ().Play ();
-                
-                if (scoreScriptObject.castle5Time < bestCastle5Time || bestCastle5Time <= 0) {
-                    Debug.Log ("setting castle 5 time to best");
-                    BestCastle5Time.SetActive(true);
-                    BestCastle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                    PlayerPrefs.SetFloat ("BestCastle5Time", scoreScriptObject.castle5Time);
-                }
-            } else if (scoreScriptObject.castle6Time > 0 && !Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") &&
-                       Castle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
-                Castle6Time.SetActive(true);
-                string displaySeconds = (scoreScriptObject.castle6Time % 60).ToString ("00");
-                string displayMinutes = Mathf.Floor (scoreScriptObject.castle6Time / 60).ToString ("00"); 
-                
-                string text = displayMinutes + ":" + displaySeconds;
-                Castle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                Castle6Time.GetComponent<AudioSource> ().Play ();
-                
-                if (scoreScriptObject.castle6Time < bestCastle6Time || bestCastle6Time <= 0) {
-                    Debug.Log ("setting castle 6 time to best");
-                    BestCastle6Time.SetActive(true);
-                    BestCastle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-                    PlayerPrefs.SetFloat ("BestCastle6Time", scoreScriptObject.castle6Time);
-                }
+                processCastleTime (Castle2Time, BestCastle2Time, scoreScriptObject.castle2Time, "BestCastle2Time");
+
+            } else if (scoreScriptObject.castle3Time > 0 &&
+                (!Castle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") || (scoreScriptObject.castle2Time <= 0)) &&
+                Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+
+                processCastleTime (Castle3Time, BestCastle3Time, scoreScriptObject.castle3Time, "BestCastle3Time");
+
+            } else if (scoreScriptObject.castle4Time > 0 &&
+                (!Castle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") || (scoreScriptObject.castle3Time <= 0)) &&
+                Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+
+                processCastleTime (Castle4Time, BestCastle4Time, scoreScriptObject.castle4Time, "BestCastle4Time");
+
+            } else if (scoreScriptObject.castle5Time > 0 &&
+                (!Castle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") || (scoreScriptObject.castle4Time <= 0)) &&
+                Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+
+                processCastleTime (Castle5Time, BestCastle5Time, scoreScriptObject.castle5Time, "BestCastle5Time");
+
+            } else if (scoreScriptObject.castle6Time > 0 &&
+                (!Castle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00") || (scoreScriptObject.castle5Time <= 0)) &&
+                Castle6Time.transform.GetChild (0).GetComponent<TextMesh> ().text.Equals ("00:00")) {
+
+                processCastleTime (Castle6Time, BestCastle6Time, scoreScriptObject.castle6Time, "BestCastle6Time");
             }
 
             castleTimesTimer = 0.7f;
         }
     }
 
+    private void processCastleTime(GameObject castleTimeSign, GameObject bestCastleTimeSign, float castleTime, string castleTimePref)
+    {
+        castleTimeSign.SetActive(true);
+        string displaySeconds = (castleTime % 60).ToString ("00");
+        string displayMinutes = Mathf.Floor (castleTime / 60).ToString ("00"); 
+        
+        string text = displayMinutes + ":" + displaySeconds;
+        castleTimeSign.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
+        castleTimeSign.GetComponent<AudioSource> ().Play ();
+
+        float bestCastleTime = PlayerPrefs.GetFloat(castleTimePref);
+        if (castleTime < bestCastleTime || bestCastleTime <= 0) {
+            Debug.Log ("setting " + castleTimePref + " to best");
+            bestCastleTimeSign.SetActive(true);
+            bestCastleTimeSign.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
+            PlayerPrefs.SetFloat (castleTimePref, castleTime);
+        }
+    }
+
+    private void setBestCastleTimes()
+    {
+        if (scoreScriptObject.castle2Time > 0) {
+            if (PlayerPrefs.GetFloat("BestCastle2Time") > 0) {
+                PlayerPrefs.SetFloat("BestCastle2Time", Mathf.Min(scoreScriptObject.castle2Time, PlayerPrefs.GetFloat("BestCastle2Time")));
+            } else {
+                PlayerPrefs.SetFloat("BestCastle2Time", scoreScriptObject.castle2Time);
+            }
+        }
+
+        if (scoreScriptObject.castle3Time > 0) {
+            if (PlayerPrefs.GetFloat("BestCastle3Time") > 0) {
+                PlayerPrefs.SetFloat("BestCastle3Time", Mathf.Min(scoreScriptObject.castle3Time, PlayerPrefs.GetFloat("BestCastle3Time")));
+            } else {
+                PlayerPrefs.SetFloat("BestCastle3Time", scoreScriptObject.castle3Time);
+            }
+        }
+
+        if (scoreScriptObject.castle4Time > 0) {
+            if (PlayerPrefs.GetFloat("BestCastle4Time") > 0) {
+                PlayerPrefs.SetFloat("BestCastle4Time", Mathf.Min(scoreScriptObject.castle4Time, PlayerPrefs.GetFloat("BestCastle4Time")));
+            } else {
+                PlayerPrefs.SetFloat("BestCastle4Time", scoreScriptObject.castle4Time);
+            }
+        }
+
+        if (scoreScriptObject.castle5Time > 0) {
+            if (PlayerPrefs.GetFloat("BestCastle5Time") > 0) {
+                PlayerPrefs.SetFloat("BestCastle5Time", Mathf.Min(scoreScriptObject.castle5Time, PlayerPrefs.GetFloat("BestCastle5Time")));
+            } else {
+                PlayerPrefs.SetFloat("BestCastle5Time", scoreScriptObject.castle5Time);
+            }
+        }
+
+        if (scoreScriptObject.castle6Time > 0) {
+            if (PlayerPrefs.GetFloat("BestCastle6Time") > 0) {
+                PlayerPrefs.SetFloat("BestCastle6Time", Mathf.Min(scoreScriptObject.castle6Time, PlayerPrefs.GetFloat("BestCastle6Time")));
+            } else {
+                PlayerPrefs.SetFloat("BestCastle6Time", scoreScriptObject.castle6Time);
+            }
+        }
+    }
     private void RequestBanner()
     {
         #if UNITY_ANDROID

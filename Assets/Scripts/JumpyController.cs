@@ -33,9 +33,12 @@ public class JumpyController : MonoBehaviour
     
     public GUIText jumpDebugGuiText;
 
+    public Score ScoreScriptObject;
+
     // Use this for initialization
     void Start ()
     {
+        ScoreScriptObject = GameObject.Find ("score").GetComponent<Score> ();
         mouseIsHoldedDown = false;
         jumpCommands = new Queue<Vector2>();
         jumpCombos = new Queue<bool>();
@@ -78,16 +81,19 @@ public class JumpyController : MonoBehaviour
         moving = GetComponent<Rigidbody2D>().velocity.magnitude > MOVING_THRESHOLD ? true : false;
 
         //dequeue the last jump command and add the force
-        if (jumpCommands.Count > 0 && !moving)
-        {
-            Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
-            isComboJump = (bool) jumpCombos.Dequeue();
-            GetComponent<AudioSource>().Play();
+        if (jumpCommands.Count > 0) {
+            if (!moving) {
+                Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
+                isComboJump = (bool) jumpCombos.Dequeue();
+                GetComponent<AudioSource>().Play();
             
-            //Debug.Log ("jumpForce: " + nextJump);
-            //Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
+                //Debug.Log ("jumpForce: " + nextJump);
+                //Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
 
-            GetComponent<Rigidbody2D>().AddForce(nextJump);
+                GetComponent<Rigidbody2D>().AddForce(nextJump);
+            }
+        } else if (ScoreScriptObject.comboCount > 0 && !moving) {
+            ScoreScriptObject.comboCount = 0;
         }
     }
 
@@ -156,7 +162,7 @@ public class JumpyController : MonoBehaviour
 #endif
         
         {
-            if (moving || (!moving && jumpCommands.Count > 0))
+            if (moving || jumpCommands.Count > 0)
                 jumpCombos.Enqueue(true);
             else
                 jumpCombos.Enqueue(false);

@@ -7,7 +7,7 @@ public class JumpyController : MonoBehaviour
     public const float MAX_JUMP_FORCE = 4000f;
     public const float MAX_JUMP_ARROW_SCALE = 5f;
     public const float MOVING_THRESHOLD = 0.5f;     //below this value, object is considered stopped    
-    public const float GROUND_RADIUS = 0.2f;       //radius of the ground check circle
+    public const float GROUND_RADIUS = 2.5f;       //radius of the ground check circle
     
     private bool moving = false;    //indicates whether object is moving or not
     private bool grounded = false; //indicates whether object is grounded or not
@@ -34,10 +34,12 @@ public class JumpyController : MonoBehaviour
     public GUIText jumpDebugGuiText;
 
     public Score ScoreScriptObject;
+    public bool ShowingTutorial = false;
 
     // Use this for initialization
     void Start ()
     {
+        Debug.Log("Starting jumpy object");
         ScoreScriptObject = GameObject.Find ("score").GetComponent<Score> ();
         mouseIsHoldedDown = false;
         jumpCommands = new Queue<Vector2>();
@@ -82,7 +84,7 @@ public class JumpyController : MonoBehaviour
 
         //dequeue the last jump command and add the force
         if (jumpCommands.Count > 0) {
-            if (!moving) {
+            if (!moving && grounded) {
                 Vector2 nextJump = (Vector2) jumpCommands.Dequeue();
                 isComboJump = (bool) jumpCombos.Dequeue();
                 GetComponent<AudioSource>().Play();
@@ -99,6 +101,9 @@ public class JumpyController : MonoBehaviour
 
     void Update ()
     {
+        if (ShowingTutorial)
+            return;
+
 #if UNITY_ANDROID
         if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
 #else
@@ -162,12 +167,7 @@ public class JumpyController : MonoBehaviour
 #endif
         
         {
-            if (moving || jumpCommands.Count > 0)
-                jumpCombos.Enqueue(true);
-            else
-                jumpCombos.Enqueue(false);
-            
-            jumpCommands.Enqueue(jumpVector); //Add a jump command to the stack
+            AddJump(jumpVector);
 #if DEBUG
             if (jumpDebugGuiText != null)
                 jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;
@@ -196,4 +196,15 @@ public class JumpyController : MonoBehaviour
             }
         }
 	}
+
+    void AddJump(Vector2 jump)
+    {
+        Vector3 vector = new Vector3(jump.x, jump.y, transform.position.z);
+        if (!grounded || moving || jumpCommands.Count > 0)
+            jumpCombos.Enqueue(true);
+        else
+            jumpCombos.Enqueue(false);
+
+        jumpCommands.Enqueue(vector);
+    }
 }

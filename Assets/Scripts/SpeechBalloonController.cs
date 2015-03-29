@@ -17,5 +17,7 @@ public class SpeechBalloonController : MonoBehaviour {
 		if (transform.rotation != Quaternion.Euler(0, 0, 0)) {
 			transform.rotation = Quaternion.Euler(0, 0, 0);
 		}
+        Vector3 parentPos = transform.parent.gameObject.transform.position;
+        transform.position = new Vector3(parentPos.x + 5.0f, parentPos.y + 6.4f, transform.position.z);
     }
 }

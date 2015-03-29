@@ -42,11 +42,13 @@ public class GameOverScreenController : MonoBehaviour
     private float bestCastle6Time;
 
     private BannerView bannerView;
+    private bool initialized = false;
+    private bool stopCounting = false;
 
     // Use this for initialization
     void Start ()
     {
-
+        Debug.Log ("Starting game over");
         scoreScriptObject = GameObject.Find ("/score").GetComponent<Score> ();
         scorePointAudio = GameObject.Find ("/gameOverScreen/scoreSign").GetComponent<AudioSource> ();
         comboPointAudio = GameObject.Find ("/gameOverScreen/comboSign").GetComponent<AudioSource> ();
@@ -105,19 +107,22 @@ public class GameOverScreenController : MonoBehaviour
             BestCastle6Time.SetActive(false);
 
         gameObject.SetActive (false);
+        initialized = true;
     }
 
     void OnEnable ()
     {
-        Debug.Log("Enabling game over");
-        PlayerPrefs.SetInt("BestScore", Mathf.Max(scoreScriptObject.score, bestScore));
-        PlayerPrefs.SetInt("BestCombo", Mathf.Max(scoreScriptObject.bestComboCount, bestCombo));
+        if (initialized) {
+            Debug.Log ("Enabling game over");
+            PlayerPrefs.SetInt ("BestScore", Mathf.Max (scoreScriptObject.score, bestScore));
+            PlayerPrefs.SetInt ("BestCombo", Mathf.Max (scoreScriptObject.bestComboCount, bestCombo));
 
-        setBestCastleTimes();
+            setBestCastleTimes ();
 
-        transform.position = new Vector3 (Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
-        RequestBanner();
-        bannerView.Show();
+            transform.position = new Vector3 (Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
+            RequestBanner ();
+            bannerView.Show ();
+        }
     }
 
     void OnDisable ()
@@ -142,12 +147,14 @@ public class GameOverScreenController : MonoBehaviour
             Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle6Time") * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {});
         }
 
-        bannerView.Hide();
+        if (bannerView != null)
+            bannerView.Hide();
     }
 
     void OnDestroy()
     {
-        bannerView.Destroy();
+        if (bannerView != null)
+            bannerView.Destroy();
         bannerView = null;
     }
 
@@ -155,6 +162,15 @@ public class GameOverScreenController : MonoBehaviour
     void Update ()
     {
         if (gameObject.activeSelf) {
+#if UNITY_ANDROID
+            if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)
+#else
+            if (Input.GetMouseButtonUp(0))
+#endif
+            {
+                stopCounting = true;
+            }
+
             pointsTimer -= Time.deltaTime;
 
             if (score < scoreScriptObject.score) {
@@ -177,7 +193,7 @@ public class GameOverScreenController : MonoBehaviour
 
     IEnumerator CountScore ()
     {
-        while (score < scoreScriptObject.score && pointsTimer <= 0) {
+        while (score < scoreScriptObject.score && pointsTimer <= 0 && !stopCounting) {
             //Vector3 pointPosition = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
             Vector3 pointPosition = new Vector3 (ScoreText.transform.position.x, ScoreText.transform.position.y, transform.position.z);
             Instantiate (SimplePointPrefab, pointPosition, Quaternion.identity);
@@ -186,6 +202,11 @@ public class GameOverScreenController : MonoBehaviour
             ScoreText.GetComponent<TextMesh> ().text = score.ToString ();
             pointsTimer = 0.1f;
             yield return null;
+        }
+
+        if (stopCounting) {
+            score = scoreScriptObject.score;
+            ScoreText.GetComponent<TextMesh> ().text = scoreScriptObject.score.ToString ();
         }
 
         if (score > bestScore && score == scoreScriptObject.score && int.Parse (BestScore.transform.GetChild(0).GetComponent<TextMesh> ().text) < score) {
@@ -198,7 +219,7 @@ public class GameOverScreenController : MonoBehaviour
 
     IEnumerator CountCombo ()
     {
-        while (combo < scoreScriptObject.bestComboCount && pointsTimer <= 0) {
+        while (combo < scoreScriptObject.bestComboCount && pointsTimer <= 0 && !stopCounting) {
             ComboSign.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
             comboPointAudio.Play ();
             Debug.Log("Counting combos: " + combo);
@@ -206,6 +227,11 @@ public class GameOverScreenController : MonoBehaviour
             ComboText.GetComponent<TextMesh> ().text = combo.ToString ();
             pointsTimer = 0.1f;
             yield return null;
+        }
+
+        if (stopCounting) {
+            combo = scoreScriptObject.bestComboCount;
+            ComboText.GetComponent<TextMesh> ().text = scoreScriptObject.bestComboCount.ToString();
         }
 
         if (combo > bestCombo && combo == scoreScriptObject.bestComboCount) {
@@ -263,7 +289,9 @@ public class GameOverScreenController : MonoBehaviour
         castleTimeSign.GetComponent<AudioSource> ().Play ();
 
         float bestCastleTime = PlayerPrefs.GetFloat(castleTimePref);
-        if (castleTime < bestCastleTime || bestCastleTime <= 0) {
+        Debug.Log("castle time: " + castleTime);
+        Debug.Log("best castle time on pref: " + bestCastleTime);
+        if (castleTime <= bestCastleTime) {
             Debug.Log ("setting " + castleTimePref + " to best");
             bestCastleTimeSign.SetActive(true);
             bestCastleTimeSign.transform.GetChild (0).GetComponent<TextMesh> ().text = text;

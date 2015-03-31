@@ -39,7 +39,7 @@ public class JumpyController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        Debug.Log("Starting jumpy object");
+        
         ScoreScriptObject = GameObject.Find ("score").GetComponent<Score> ();
         mouseIsHoldedDown = false;
         jumpCommands = new Queue<Vector2>();
@@ -67,10 +67,10 @@ public class JumpyController : MonoBehaviour
 
     void OnLevelWasLoaded(int level)
     {
-        Debug.Log ("Level " + level + " loaded.");
+        
         if (level == 1) {
             int speak = Random.Range(1,6);
-            Debug.Log ("speak =  " + speak);
+            
             if (speak == 1) {
                 SpeechAnimator.SetBool("speak", true);
             }
@@ -89,8 +89,8 @@ public class JumpyController : MonoBehaviour
                 isComboJump = (bool) jumpCombos.Dequeue();
                 GetComponent<AudioSource>().Play();
             
-                //Debug.Log ("jumpForce: " + nextJump);
-                //Debug.Log ("jumpForce magnitude: " + nextJump.magnitude);
+                //
+                //
 
                 GetComponent<Rigidbody2D>().AddForce(nextJump);
             }
@@ -148,15 +148,15 @@ public class JumpyController : MonoBehaviour
             jumpVector.y = jumpVector.y / Screen.height;
             jumpVector.x = jumpVector.x * jumpMultiplierX;
             jumpVector.y = jumpVector.y * jumpMultiplierY;
-            //Debug.Log ("jumpForce: " + jumpVector);
-            //Debug.Log ("jumpForce magnitude: " + jumpVector.magnitude);
+            //
+            //
             
             if (jumpVector.x > MAX_JUMP_FORCE)
                 jumpVector.x = Mathf.Sign (jumpVector.x) * MAX_JUMP_FORCE;
             if (jumpVector.y > MAX_JUMP_FORCE)
                 jumpVector.y = Mathf.Sign (jumpVector.y) * MAX_JUMP_FORCE;
             
-            //Debug.Log ("scaling magnitude: " + jumpVector.magnitude);
+            //
             float scaleAmount = jumpVector.magnitude / MAX_JUMP_FORCE * MAX_JUMP_ARROW_SCALE;
             jumpArrowBody.transform.localScale = new Vector3(scaleAmount, jumpArrow.transform.localScale.y, jumpArrow.transform.localScale.z);
         }

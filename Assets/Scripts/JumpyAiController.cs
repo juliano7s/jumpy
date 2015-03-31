@@ -31,7 +31,7 @@ public class JumpyAiController : MonoBehaviour
         PlayGamesPlatform.DebugLogEnabled = false;
         PlayGamesPlatform.Activate();
         Social.localUser.Authenticate((bool success) => {
-            Debug.Log("User authenticate google play games: " + success);
+            
             //googlePlayDebug.GetComponent<TextMesh>().text = "User authenticate google play games: " + success;
         });
     }

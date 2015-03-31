@@ -19,13 +19,13 @@ public class TutorialBehaviour : StateMachineBehaviour {
 
         if (stateInfo.IsName("Tutorial")) {
             tutorialController.ShowFirstJump = true;
-            Debug.Log("ShowFirstJump set");
+            
         }
 
         if (stateInfo.IsName("TutorialCombo")) {
             tutorialController.ShowCombo = true;
             animator.SetBool("showComboTutorial", false);
-            Debug.Log("ShowCombo set");
+            
         }
 	}
 

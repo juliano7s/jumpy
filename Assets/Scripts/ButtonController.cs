@@ -28,19 +28,22 @@ public class ButtonController : MonoBehaviour {
 	}
 
     void OnMouseDown() {
-        Debug.Log("Mouse down on " + transform.name);
+        //
         if (transform.name == "play") {
             if (PlayerPrefs.GetInt("FirstTime") > 0)
                 Application.LoadLevel("Main");
             else
                 Application.LoadLevel("Tutorial");
         } else if (transform.name == "rank") {
-            Debug.Log("Open rank");
+            //
             Social.ShowLeaderboardUI();
-        } else if (transform.name == "menu")
+        } else if (transform.name == "achv") {
+            //
+            Social.ShowAchievementsUI();
+        } else if (transform.name == "menu") {
             Application.LoadLevel("Start");
-        else if (transform.name == "rate") {
-            Debug.Log("Open rate");
+        } else if (transform.name == "rate") {
+            //
             Application.OpenURL("https://play.google.com/store/apps/details?id=com.creationguts.jumpy");
         } else if (transform.name.Equals("sound")) {
             if (SoundOn.GetComponent<SpriteRenderer>().enabled) {

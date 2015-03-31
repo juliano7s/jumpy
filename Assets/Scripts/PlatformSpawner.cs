@@ -31,20 +31,20 @@ public class PlatformSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //Debug.Log("Starting PlatformSpawner");
+        //
         //scoreScriptObject = GameObject.Find("/score").GetComponent<Score>();
 
         platformPrefab = platformLargePrefab;
 
-        //Debug.Log("Initializing platformSpawner");
+        //
         xCameraBoundary = Camera.main.transform.position.x + Camera.main.orthographicSize * Screen.width/Screen.height;
         platformQueue = new Queue();
 
 		float lastSpawnedPosition = player.position.x;
         for (int i = 1; i < 4; i++)
         {
-            //Debug.Log("Instantiating platform from prefab: " + platformPrefab);
-            //Debug.Log("--- collider scale: " + ((BoxCollider2D) platformPrefab.collider2D).size);
+            //
+            //
 			//Vector2 platformSize = ((BoxCollider2D) platformPrefab.GetComponent<Collider2D>()).size;
             float yRandom = i == 1 ? player.position.y - 12 : Random.Range(yPositionRangeBottom, yPositionRangeTop);
             Vector2 position = new Vector2(lastSpawnedPosition + platformDistance, yRandom);
@@ -56,18 +56,18 @@ public class PlatformSpawner : MonoBehaviour {
     }
 
     void Update() {
-        //Debug.Log("Camera position: " + Camera.main.transform.position);
-        //Debug.Log("Camera width: " + Camera.main.orthographicSize * Screen.width/Screen.height);
+        //
+        //
         xCameraBoundary = Camera.main.transform.position.x + Camera.main.orthographicSize * Screen.width/Screen.height;
         float currentXThreshold = Mathf.Abs(lastSpawnedPlatform.transform.position.x - xCameraBoundary);
-        //Debug.Log ("xCameraBoundary: " + xCameraBoundary);
-        //Debug.Log ("lastSpawnedPlatform.transform.position.x - xCameraBoundary =  " + lastSpawnedPlatform.transform.position.x + " - " + xCameraBoundary + " = " + currentXThreshold);
+        //
+        //
         if (currentXThreshold < newSpawnXThreshold)
         {
             //Vector2 platformSize = ((BoxCollider2D) platformPrefab.GetComponent<Collider2D>()).size;
             float yRandom = Random.Range(yPositionRangeBottom, yPositionRangeTop);
             Vector2 position = new Vector2(lastSpawnedPlatform.transform.position.x + platformDistance, yRandom);
-            //Debug.Log("Spawning platform at: " + position);
+            //
             SpawnPlatform(position);
         }
 
@@ -85,7 +85,7 @@ public class PlatformSpawner : MonoBehaviour {
 
     void SpawnPlatform(Vector2 position) {
         
-		//Debug.Log("score before spawning: " + scoreScriptObject.score);
+		//
 		bool castleSpawned = false;
 
 		if (platformCount >= 5 && castle2 == null)
@@ -143,10 +143,10 @@ public class PlatformSpawner : MonoBehaviour {
 			lastSpawnedPlatform = (GameObject)Instantiate (platformPrefab, position, Quaternion.identity);
             platformCount++;
 
-			//Debug.Log ("Spawning platforms at : " + position);
-			//Debug.Log ("xCameraBoundary is at: " + xCameraBoundary);
+			//
+			//
 			if (position.x > xCameraBoundary) {
-				//Debug.Log ("Adding platform to the queue: " + lastSpawnedPlatform.transform);
+				//
 				platformQueue.Enqueue (lastSpawnedPlatform);
 			}
 		}

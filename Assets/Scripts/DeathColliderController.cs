@@ -25,7 +25,7 @@ public class DeathColliderController : MonoBehaviour
         if (col.gameObject.tag == "Point")
         {
             Destroy(col.gameObject);    // Not ideal instatiating and destroying everytime
-            //Debug.Log("Destroying point");
+            //
         }
     }
 

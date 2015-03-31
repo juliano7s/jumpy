@@ -35,10 +35,10 @@ public class PlatformController : MonoBehaviour
     {
         if (player != null) {
             float leftXCameraBoundary = Camera.main.transform.position.x - Camera.main.orthographicSize * Screen.width / Screen.height;
-            //Debug.Log ("xCameraBoundary: " + xCameraBoundary);
-            //Debug.Log ("lastSpawnedPlatform.transform.position.x - xCameraBoundary =  " + lastSpawnedPlatform.transform.position.x + " - " + xCameraBoundary + " = " + currentXThreshold);
+            //
+            //
             if ((transform.position.x + ((BoxCollider2D)GetComponent<Collider2D> ()).size.x) < leftXCameraBoundary) {
-                //Debug.Log ("Player far away. Destroying myself: " + (player.transform.position.x - transform.position.x));
+                //
                 Destroy (gameObject);
             }
         } else {
@@ -59,7 +59,7 @@ public class PlatformController : MonoBehaviour
     void OnCollisionEnter2D (Collision2D collision)
     {
         // Increases score
-        Debug.Log("Platform collided");
+        
         if (collision.gameObject.tag == "Player") {				
             if (!hasScored) {
                 scoreScriptObject.score++;
@@ -67,7 +67,7 @@ public class PlatformController : MonoBehaviour
                 collisionPosition = collision.transform.position;
                 hasScored = true;
                 if (jumpyController.isComboJump) {
-                    //Debug.Log ("Combo jump!!! x" + comboCount);
+                    //
                     childComboAlert.GetComponent<AudioSource> ().Play ();
                     scoreScriptObject.comboCount++;
                     comboCount += scoreScriptObject.comboCount;
@@ -95,7 +95,7 @@ public class PlatformController : MonoBehaviour
 	    
     void InstantiateCombo ()
     {   
-        //Debug.Log ("Instantiating combo");
+        //
         if (comboSign == null) {        
             comboSign = (GameObject) Instantiate(comboSignPrefab, comboPosition, Quaternion.identity);
         }

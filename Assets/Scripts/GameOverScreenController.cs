@@ -48,7 +48,7 @@ public class GameOverScreenController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        Debug.Log ("Starting game over");
+        
         scoreScriptObject = GameObject.Find ("/score").GetComponent<Score> ();
         scorePointAudio = GameObject.Find ("/gameOverScreen/scoreSign").GetComponent<AudioSource> ();
         comboPointAudio = GameObject.Find ("/gameOverScreen/comboSign").GetComponent<AudioSource> ();
@@ -113,7 +113,7 @@ public class GameOverScreenController : MonoBehaviour
     void OnEnable ()
     {
         if (initialized) {
-            Debug.Log ("Enabling game over");
+            
             PlayerPrefs.SetInt ("BestScore", Mathf.Max (scoreScriptObject.score, bestScore));
             PlayerPrefs.SetInt ("BestCombo", Mathf.Max (scoreScriptObject.bestComboCount, bestCombo));
 
@@ -127,7 +127,7 @@ public class GameOverScreenController : MonoBehaviour
 
     void OnDisable ()
     {
-        Debug.Log("Disabling game over");       
+               
         Social.ReportScore(PlayerPrefs.GetInt("BestScore"), "CgkI5dWk2_MQEAIQDg", (bool success) => {});
         Social.ReportScore(PlayerPrefs.GetInt("BestCombo"), "CgkI5dWk2_MQEAIQBw", (bool success) => {});
 
@@ -210,7 +210,7 @@ public class GameOverScreenController : MonoBehaviour
         }
 
         if (score > bestScore && score == scoreScriptObject.score && int.Parse (BestScore.transform.GetChild(0).GetComponent<TextMesh> ().text) < score) {
-            Debug.Log ("setting score to best");
+            
             BestScore.transform.GetChild(0).GetComponent<TextMesh> ().text = score.ToString ();
             PlayerPrefs.SetInt ("BestScore", score);
             bestScore = score;
@@ -222,7 +222,7 @@ public class GameOverScreenController : MonoBehaviour
         while (combo < scoreScriptObject.bestComboCount && pointsTimer <= 0 && !stopCounting) {
             ComboSign.transform.GetChild(1).GetComponent<ParticleSystem>().Play();
             comboPointAudio.Play ();
-            Debug.Log("Counting combos: " + combo);
+            
             combo++;
             ComboText.GetComponent<TextMesh> ().text = combo.ToString ();
             pointsTimer = 0.1f;
@@ -235,7 +235,7 @@ public class GameOverScreenController : MonoBehaviour
         }
 
         if (combo > bestCombo && combo == scoreScriptObject.bestComboCount) {
-            Debug.Log ("setting combo to best");
+            
             BestCombo.transform.GetChild(0).GetComponent<TextMesh> ().text = combo.ToString ();
             PlayerPrefs.SetInt ("BestCombo", combo);
             bestCombo = combo;
@@ -289,10 +289,10 @@ public class GameOverScreenController : MonoBehaviour
         castleTimeSign.GetComponent<AudioSource> ().Play ();
 
         float bestCastleTime = PlayerPrefs.GetFloat(castleTimePref);
-        Debug.Log("castle time: " + castleTime);
-        Debug.Log("best castle time on pref: " + bestCastleTime);
+        
+        
         if (castleTime <= bestCastleTime) {
-            Debug.Log ("setting " + castleTimePref + " to best");
+            
             bestCastleTimeSign.SetActive(true);
             bestCastleTimeSign.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
             PlayerPrefs.SetFloat (castleTimePref, castleTime);
@@ -351,7 +351,7 @@ public class GameOverScreenController : MonoBehaviour
         string adUnitId = "unexpected_platform";
         #endif
 
-        Debug.Log("REQUESTING AD BANNER");
+        
         if (bannerView == null) {
             // Create a 320x50 banner at the top of the screen.
             bannerView = new BannerView (adUnitId, AdSize.Banner, AdPosition.Bottom);

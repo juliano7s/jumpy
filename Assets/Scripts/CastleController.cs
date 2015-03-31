@@ -30,7 +30,7 @@ public class CastleController : MonoBehaviour {
             castleSign.transform.position = signPosition;
 
             if (signTimer <= 0) {
-                Debug.Log ("Destroying castle sign.");
+                
                 signTimer = 5.0f;
                 Destroy (castleSign);
             }
@@ -41,37 +41,42 @@ public class CastleController : MonoBehaviour {
     {
         // Increases score
         if (collision.gameObject.tag == "Player") {             
-            Debug.Log("Setting time on " + collision.gameObject.transform.name + ": " + timerScriptObject.currentTime);
+            
             if (GetComponent<BoxCollider2D>().IsTouching(collision.collider) && !hasScored) {
                 GetComponent<AudioSource> ().Play ();
                 if (transform.name.Equals("castle2")) {
                     scoreScriptObject.castle2Time = timerScriptObject.currentTime;
                     InstantiateCastleSign(scoreScriptObject.castle2Time);
                     hasScored = true;
+                    Social.ReportProgress("CgkI5dWk2_MQEAIQCA", 100.0f, (bool success) => {});
                 }
 
                 if (transform.name.Equals("castle3")) {
                     scoreScriptObject.castle3Time = timerScriptObject.currentTime;
                     InstantiateCastleSign(scoreScriptObject.castle3Time);
                     hasScored = true;
+                    Social.ReportProgress("CgkI5dWk2_MQEAIQCQ", 100.0f, (bool success) => {});
                 }
 
                 if (transform.name.Equals("castle4")) {
                     scoreScriptObject.castle4Time = timerScriptObject.currentTime;
                     InstantiateCastleSign(scoreScriptObject.castle4Time);
                     hasScored = true;
+                    Social.ReportProgress("CgkI5dWk2_MQEAIQCg", 100.0f, (bool success) => {});
                 }
 
                 if (transform.name.Equals("castle5")) {
                     scoreScriptObject.castle5Time = timerScriptObject.currentTime;
                     InstantiateCastleSign(scoreScriptObject.castle5Time);
                     hasScored = true;
+                    Social.ReportProgress("CgkI5dWk2_MQEAIQCw", 100.0f, (bool success) => {});
                 }
 
                 if (transform.name.Equals("castle6")) {
                     scoreScriptObject.castle6Time = timerScriptObject.currentTime;
                     InstantiateCastleSign(scoreScriptObject.castle6Time);
                     hasScored = true;
+                    Social.ReportProgress("CgkI5dWk2_MQEAIQDA", 100.0f, (bool success) => {});
                 }
             } 
         }
@@ -79,7 +84,7 @@ public class CastleController : MonoBehaviour {
 
     void InstantiateCastleSign(float currentTime)
     {
-        Debug.Log ("Instantiating castle time");
+        
         if (castleSign == null) {        
             castleSign = (GameObject) Instantiate(CastleSignPrefab, signPosition, Quaternion.identity);
         }

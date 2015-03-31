@@ -16,7 +16,7 @@ public class TutorialController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Debug.Log("Starting tutorial controller object");
+        
         JumpyObject.GetComponent<JumpyController>().ShowingTutorial = true;
         startTime = Time.time;
     }
@@ -29,7 +29,7 @@ public class TutorialController : MonoBehaviour {
         }
 
         if (ShowFirstJump) {
-            Debug.Log("Adding jump");
+            
             JumpyObject.SendMessage("AddJump", new Vector2(2000,3000));
             ShowFirstJump = false;
             firstJumpTime = Time.time;
@@ -39,7 +39,7 @@ public class TutorialController : MonoBehaviour {
 
             if (!JumpyObject.GetComponent<Rigidbody2D>().isKinematic) {
                 velocityWhenPaused = JumpyObject.GetComponent<Rigidbody2D>().velocity;
-                Debug.Log("Velocity: " + velocityWhenPaused);
+                
             }
             JumpyObject.GetComponent<Rigidbody2D>().isKinematic = true;
 
@@ -47,7 +47,7 @@ public class TutorialController : MonoBehaviour {
         }
 
         if (ShowCombo) {
-            Debug.Log("Adding jump combo, velocity: " + velocityWhenPaused);
+            
             JumpyObject.GetComponent<Rigidbody2D>().velocity = velocityWhenPaused;
             JumpyObject.GetComponent<Rigidbody2D>().isKinematic = false;
             JumpyObject.SendMessage("AddJump", new Vector2(2000,2000));

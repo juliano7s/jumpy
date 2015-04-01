@@ -160,6 +160,7 @@ public class JumpyController : MonoBehaviour
             float scaleAmount = jumpVector.magnitude / MAX_JUMP_FORCE * MAX_JUMP_ARROW_SCALE;
             jumpArrowBody.transform.localScale = new Vector3(scaleAmount, jumpArrow.transform.localScale.y, jumpArrow.transform.localScale.z);
         }
+
 #if UNITY_ANDROID
         if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)
 #else
@@ -167,7 +168,8 @@ public class JumpyController : MonoBehaviour
 #endif
         
         {
-            AddJump(jumpVector);
+            if (jumpVector.magnitude > 300.0f)
+                AddJump(jumpVector);
 #if DEBUG
             if (jumpDebugGuiText != null)
                 jumpDebugGuiText.text += " : (" + jumpVector.x + ", " + jumpVector.y + ") " + jumpVector.magnitude;

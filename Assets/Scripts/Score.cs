@@ -54,9 +54,6 @@ public class Score : MonoBehaviour {
                 Social.ReportProgress("CgkI5dWk2_MQEAIQEg", 100.0f, (bool success) => {});
                 sentScore150 = true;
             }
-
-
-
         }
 
         if (comboCount > 0)

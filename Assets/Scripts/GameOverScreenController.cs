@@ -45,6 +45,17 @@ public class GameOverScreenController : MonoBehaviour
     private bool initialized = false;
     private bool stopCounting = false;
 
+    private bool sentScore10 = false;
+    private bool sentScore50 = false;
+    private bool sentScore100 = false;
+    private bool sentScore150 = false;
+    
+    private bool sentCombo2 = false;
+    private bool sentCombo5 = false;
+    private bool sentCombo10 = false;
+    private bool sentCombo15 = false;
+    private bool sentCombo20 = false;
+
     // Use this for initialization
     void Start ()
     {
@@ -53,34 +64,34 @@ public class GameOverScreenController : MonoBehaviour
         scorePointAudio = GameObject.Find ("/gameOverScreen/scoreSign").GetComponent<AudioSource> ();
         comboPointAudio = GameObject.Find ("/gameOverScreen/comboSign").GetComponent<AudioSource> ();
         score = scoreScriptObject.score;
-        bestScore = PlayerPrefs.GetInt ("BestScore");
-        bestCombo = PlayerPrefs.GetInt ("BestCombo");
+        bestScore = EncryptedPlayerPrefs.GetInt ("BestScore");
+        bestCombo = EncryptedPlayerPrefs.GetInt ("BestCombo");
 
-        bestCastle2Time = PlayerPrefs.GetFloat ("BestCastle2Time");
+        bestCastle2Time = EncryptedPlayerPrefs.GetFloat ("BestCastle2Time");
         string displaySeconds = (bestCastle2Time % 60).ToString ("00");
         string displayMinutes = Mathf.Floor (bestCastle2Time / 60).ToString ("00"); 
         
         BestCastle2Time.transform.GetChild (0).GetComponent<TextMesh> ().text = displayMinutes + ":" + displaySeconds;
 
-        bestCastle3Time = PlayerPrefs.GetFloat ("BestCastle3Time");
+        bestCastle3Time = EncryptedPlayerPrefs.GetFloat ("BestCastle3Time");
         displaySeconds = (bestCastle3Time % 60).ToString ("00");
         displayMinutes = Mathf.Floor (bestCastle3Time / 60).ToString ("00"); 
         
         BestCastle3Time.transform.GetChild (0).GetComponent<TextMesh> ().text = displayMinutes + ":" + displaySeconds;
 
-        bestCastle4Time = PlayerPrefs.GetFloat ("BestCastle4Time");
+        bestCastle4Time = EncryptedPlayerPrefs.GetFloat ("BestCastle4Time");
         displaySeconds = (bestCastle4Time % 60).ToString ("00");
         displayMinutes = Mathf.Floor (bestCastle4Time / 60).ToString ("00"); 
         
         BestCastle4Time.transform.GetChild (0).GetComponent<TextMesh> ().text = displayMinutes + ":" + displaySeconds;
 
-        bestCastle5Time = PlayerPrefs.GetFloat ("BestCastle5Time");
+        bestCastle5Time = EncryptedPlayerPrefs.GetFloat ("BestCastle5Time");
         displaySeconds = (bestCastle5Time % 60).ToString ("00");
         displayMinutes = Mathf.Floor (bestCastle5Time / 60).ToString ("00"); 
         
         BestCastle5Time.transform.GetChild (0).GetComponent<TextMesh> ().text = displayMinutes + ":" + displaySeconds;
 
-        bestCastle6Time = PlayerPrefs.GetFloat ("BestCastle6Time");
+        bestCastle6Time = EncryptedPlayerPrefs.GetFloat ("BestCastle6Time");
         displaySeconds = (bestCastle6Time % 60).ToString ("00");
         displayMinutes = Mathf.Floor (bestCastle6Time / 60).ToString ("00"); 
         
@@ -114,8 +125,12 @@ public class GameOverScreenController : MonoBehaviour
     {
         if (initialized) {
             
-            PlayerPrefs.SetInt ("BestScore", Mathf.Max (scoreScriptObject.score, bestScore));
-            PlayerPrefs.SetInt ("BestCombo", Mathf.Max (scoreScriptObject.bestComboCount, bestCombo));
+            EncryptedPlayerPrefs.SetInt ("BestScore", Mathf.Max (scoreScriptObject.score, bestScore));
+            EncryptedPlayerPrefs.SetInt ("BestCombo", Mathf.Max (scoreScriptObject.bestComboCount, bestCombo));
+
+            //Send only the last player score and combo to play services
+            Social.ReportScore(scoreScriptObject.score, "CgkI5dWk2_MQEAIQDg", (bool success) => {});
+            Social.ReportScore(scoreScriptObject.bestComboCount, "CgkI5dWk2_MQEAIQBw", (bool success) => {});
 
             setBestCastleTimes ();
 
@@ -128,29 +143,69 @@ public class GameOverScreenController : MonoBehaviour
     void OnDisable ()
     {
                
-        Social.ReportScore(PlayerPrefs.GetInt("BestScore"), "CgkI5dWk2_MQEAIQDg", (bool success) => {});
-        Social.ReportScore(PlayerPrefs.GetInt("BestCombo"), "CgkI5dWk2_MQEAIQBw", (bool success) => {});
+        //Social.ReportScore(EncryptedPlayerPrefs.GetInt("BestScore"), "CgkI5dWk2_MQEAIQDg", (bool success) => {});
+        //Social.ReportScore(EncryptedPlayerPrefs.GetInt("BestCombo"), "CgkI5dWk2_MQEAIQBw", (bool success) => {});
 
-        if (PlayerPrefs.GetFloat("BestCastle2Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle2Time") * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {});
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle2Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle2Time") * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {});
         }
-        if (PlayerPrefs.GetFloat("BestCastle3Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle3Time") * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {});
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle3Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle3Time") * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {});
         }
-        if (PlayerPrefs.GetFloat("BestCastle4Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle4Time") * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {});
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle4Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle4Time") * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {});
         }
-        if (PlayerPrefs.GetFloat("BestCastle5Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle5Time") * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {});
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle5Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle5Time") * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {});
         }
-        if (PlayerPrefs.GetFloat("BestCastle6Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(PlayerPrefs.GetFloat("BestCastle6Time") * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {});
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle6Time") > 0) {
+            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle6Time") * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {});
         }
 
+        //Score achievements retroactively
+        if (score >= 10  && !sentScore10) {
+            Social.ReportProgress("CgkI5dWk2_MQEAIQDw", 100.0f, (bool success) => {});
+            sentScore10 = true;
+        }
+        if (score >= 50  && !sentScore50){ 
+            Social.ReportProgress("CgkI5dWk2_MQEAIQEA", 100.0f, (bool success) => {});
+            sentScore50 = true;
+        }
+        if (score >= 100 && !sentScore100) { 
+            Social.ReportProgress("CgkI5dWk2_MQEAIQEQ", 100.0f, (bool success) => {});
+            sentScore100 = true;
+        }
+        if (score >= 150 && !sentScore150) {
+            Social.ReportProgress("CgkI5dWk2_MQEAIQEg", 100.0f, (bool success) => {});
+            sentScore150 = true;
+        }
+
+        //Combo achievements retroactively
+        if (scoreScriptObject.bestComboCount >= 2  && !sentCombo2) { 
+            Social.ReportProgress("CgkI5dWk2_MQEAIQEw", 100.0f, (bool success) => {});
+            sentCombo2 = true;
+        }
+        if (scoreScriptObject.bestComboCount >= 5  && !sentCombo5) { 
+            Social.ReportProgress("CgkI5dWk2_MQEAIQFA", 100.0f, (bool success) => {});
+            sentCombo5 = true;
+        }
+        if (scoreScriptObject.bestComboCount >= 10 && !sentCombo10) { 
+            Social.ReportProgress("CgkI5dWk2_MQEAIQFQ", 100.0f, (bool success) => {});
+            sentCombo10 = true;
+        }
+        if (scoreScriptObject.bestComboCount >= 15 && !sentCombo15) { 
+            Social.ReportProgress("CgkI5dWk2_MQEAIQFg", 100.0f, (bool success) => {});
+            sentCombo15 = true;
+        }
+        if (scoreScriptObject.bestComboCount >= 20 && !sentCombo20) {
+            Social.ReportProgress("CgkI5dWk2_MQEAIQFw", 100.0f, (bool success) => {});
+            sentCombo20 = true;
+        }
+        
         if (bannerView != null)
             bannerView.Hide();
     }
-
+    
     void OnDestroy()
     {
         if (bannerView != null)
@@ -212,7 +267,7 @@ public class GameOverScreenController : MonoBehaviour
         if (score > bestScore && score == scoreScriptObject.score && int.Parse (BestScore.transform.GetChild(0).GetComponent<TextMesh> ().text) < score) {
             
             BestScore.transform.GetChild(0).GetComponent<TextMesh> ().text = score.ToString ();
-            PlayerPrefs.SetInt ("BestScore", score);
+            EncryptedPlayerPrefs.SetInt ("BestScore", score);
             bestScore = score;
         }
     }
@@ -237,7 +292,7 @@ public class GameOverScreenController : MonoBehaviour
         if (combo > bestCombo && combo == scoreScriptObject.bestComboCount) {
             
             BestCombo.transform.GetChild(0).GetComponent<TextMesh> ().text = combo.ToString ();
-            PlayerPrefs.SetInt ("BestCombo", combo);
+            EncryptedPlayerPrefs.SetInt ("BestCombo", combo);
             bestCombo = combo;
         }
     }
@@ -288,57 +343,62 @@ public class GameOverScreenController : MonoBehaviour
         castleTimeSign.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
         castleTimeSign.GetComponent<AudioSource> ().Play ();
 
-        float bestCastleTime = PlayerPrefs.GetFloat(castleTimePref);
+        float bestCastleTime = EncryptedPlayerPrefs.GetFloat(castleTimePref);
         
         
         if (castleTime <= bestCastleTime) {
             
             bestCastleTimeSign.SetActive(true);
             bestCastleTimeSign.transform.GetChild (0).GetComponent<TextMesh> ().text = text;
-            PlayerPrefs.SetFloat (castleTimePref, castleTime);
+            EncryptedPlayerPrefs.SetFloat (castleTimePref, castleTime);
         }
     }
 
     private void setBestCastleTimes()
     {
         if (scoreScriptObject.castle2Time > 0) {
-            if (PlayerPrefs.GetFloat("BestCastle2Time") > 0) {
-                PlayerPrefs.SetFloat("BestCastle2Time", Mathf.Min(scoreScriptObject.castle2Time, PlayerPrefs.GetFloat("BestCastle2Time")));
+            if (EncryptedPlayerPrefs.GetFloat("BestCastle2Time") > 0) {
+                EncryptedPlayerPrefs.SetFloat("BestCastle2Time", Mathf.Min(scoreScriptObject.castle2Time, EncryptedPlayerPrefs.GetFloat("BestCastle2Time")));
             } else {
-                PlayerPrefs.SetFloat("BestCastle2Time", scoreScriptObject.castle2Time);
+                EncryptedPlayerPrefs.SetFloat("BestCastle2Time", scoreScriptObject.castle2Time);
             }
+            Social.ReportProgress("CgkI5dWk2_MQEAIQCA", 100.0f, (bool success) => {}); //castle achievement
         }
 
         if (scoreScriptObject.castle3Time > 0) {
-            if (PlayerPrefs.GetFloat("BestCastle3Time") > 0) {
-                PlayerPrefs.SetFloat("BestCastle3Time", Mathf.Min(scoreScriptObject.castle3Time, PlayerPrefs.GetFloat("BestCastle3Time")));
+            if (EncryptedPlayerPrefs.GetFloat("BestCastle3Time") > 0) {
+                EncryptedPlayerPrefs.SetFloat("BestCastle3Time", Mathf.Min(scoreScriptObject.castle3Time, EncryptedPlayerPrefs.GetFloat("BestCastle3Time")));
             } else {
-                PlayerPrefs.SetFloat("BestCastle3Time", scoreScriptObject.castle3Time);
+                EncryptedPlayerPrefs.SetFloat("BestCastle3Time", scoreScriptObject.castle3Time);
             }
+            Social.ReportProgress("CgkI5dWk2_MQEAIQCQ", 100.0f, (bool success) => {}); //castle achievement
         }
 
         if (scoreScriptObject.castle4Time > 0) {
-            if (PlayerPrefs.GetFloat("BestCastle4Time") > 0) {
-                PlayerPrefs.SetFloat("BestCastle4Time", Mathf.Min(scoreScriptObject.castle4Time, PlayerPrefs.GetFloat("BestCastle4Time")));
+            if (EncryptedPlayerPrefs.GetFloat("BestCastle4Time") > 0) {
+                EncryptedPlayerPrefs.SetFloat("BestCastle4Time", Mathf.Min(scoreScriptObject.castle4Time, EncryptedPlayerPrefs.GetFloat("BestCastle4Time")));
             } else {
-                PlayerPrefs.SetFloat("BestCastle4Time", scoreScriptObject.castle4Time);
+                EncryptedPlayerPrefs.SetFloat("BestCastle4Time", scoreScriptObject.castle4Time);
             }
+            Social.ReportProgress("CgkI5dWk2_MQEAIQCg", 100.0f, (bool success) => {}); //castle achievement
         }
 
         if (scoreScriptObject.castle5Time > 0) {
-            if (PlayerPrefs.GetFloat("BestCastle5Time") > 0) {
-                PlayerPrefs.SetFloat("BestCastle5Time", Mathf.Min(scoreScriptObject.castle5Time, PlayerPrefs.GetFloat("BestCastle5Time")));
+            if (EncryptedPlayerPrefs.GetFloat("BestCastle5Time") > 0) {
+                EncryptedPlayerPrefs.SetFloat("BestCastle5Time", Mathf.Min(scoreScriptObject.castle5Time, EncryptedPlayerPrefs.GetFloat("BestCastle5Time")));
             } else {
-                PlayerPrefs.SetFloat("BestCastle5Time", scoreScriptObject.castle5Time);
+                EncryptedPlayerPrefs.SetFloat("BestCastle5Time", scoreScriptObject.castle5Time);
             }
+            Social.ReportProgress("CgkI5dWk2_MQEAIQCw", 100.0f, (bool success) => {}); //castle achievement
         }
 
         if (scoreScriptObject.castle6Time > 0) {
-            if (PlayerPrefs.GetFloat("BestCastle6Time") > 0) {
-                PlayerPrefs.SetFloat("BestCastle6Time", Mathf.Min(scoreScriptObject.castle6Time, PlayerPrefs.GetFloat("BestCastle6Time")));
+            if (EncryptedPlayerPrefs.GetFloat("BestCastle6Time") > 0) {
+                EncryptedPlayerPrefs.SetFloat("BestCastle6Time", Mathf.Min(scoreScriptObject.castle6Time, EncryptedPlayerPrefs.GetFloat("BestCastle6Time")));
             } else {
-                PlayerPrefs.SetFloat("BestCastle6Time", scoreScriptObject.castle6Time);
+                EncryptedPlayerPrefs.SetFloat("BestCastle6Time", scoreScriptObject.castle6Time);
             }
+            Social.ReportProgress("CgkI5dWk2_MQEAIQDA", 100.0f, (bool success) => {}); //castle achievement
         }
     }
     private void RequestBanner()

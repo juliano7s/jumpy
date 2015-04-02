@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using GooglePlayGames;
-using UnityEngine.SocialPlatforms;
 
 public class JumpyAiController : MonoBehaviour
 {
@@ -26,14 +24,6 @@ public class JumpyAiController : MonoBehaviour
     void Start ()
     {
         anim = GetComponent<Animator>();
-
-        //googlePlayDebug.GetComponent<TextMesh>().text = "authenticating on google play";
-        PlayGamesPlatform.DebugLogEnabled = false;
-        PlayGamesPlatform.Activate();
-        Social.localUser.Authenticate((bool success) => {
-            
-            //googlePlayDebug.GetComponent<TextMesh>().text = "User authenticate google play games: " + success;
-        });
     }
     
     void Update() {

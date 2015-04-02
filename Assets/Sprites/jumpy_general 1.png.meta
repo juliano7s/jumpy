@@ -1,0 +1,313 @@
+fileFormatVersion: 2
+guid: 98d1fc6b86e63e845969cfc526ccd6e7
+timeCreated: 1427936228
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: jumpy_general_0
+    21300002: jumpy_general_1
+    21300004: jumpy_general_2
+    21300006: jumpy_general_3
+    21300008: jumpy_general_4
+    21300010: jumpy_general_5
+    21300012: jumpy_general_6
+    21300014: jumpy_general_7
+    21300016: jumpy_general_8
+    21300018: jumpy_general_9
+    21300020: jumpy_general_10
+    21300022: jumpy_general_11
+    21300024: jumpy_general_12
+    21300026: jumpy_general_13
+    21300028: jumpy_general_14
+    21300030: jumpy_general_15
+    21300032: jumpy_general 1_0
+    21300034: jumpy_general 1_1
+    21300036: jumpy_general 1_2
+    21300038: jumpy_general 1_3
+    21300040: jumpy_general 1_4
+    21300042: jumpy_general 1_5
+    21300044: jumpy_general 1_6
+    21300046: jumpy_general 1_7
+    21300048: jumpy_general 1_8
+    21300050: jumpy_general 1_9
+    21300052: jumpy_general 1_10
+    21300054: jumpy_general 1_11
+    21300056: jumpy_general 1_12
+    21300058: jumpy_general 1_13
+    21300060: jumpy_general 1_14
+    21300062: jumpy_general 1_15
+    21300064: jumpy_general 1_16
+    21300066: jumpy_general 1_17
+    21300068: jumpy_general 1_18
+    21300070: jumpy_general 1_19
+    21300072: jumpy_general 1_20
+    21300074: jumpy_general 1_21
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -2
+  maxTextureSize: 256
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 1
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: jumpy_general 1_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 145
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_1
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 145
+        width: 34
+        height: 38
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_2
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 145
+        width: 34
+        height: 40
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_3
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 145
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_4
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 145
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_5
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 145
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_6
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 99
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_7
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 99
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_8
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 99
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_9
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 99
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_10
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 99
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_11
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 99
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_12
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 51
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_13
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 51
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_14
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 51
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_15
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 51
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_16
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 51
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_17
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 51
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_18
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 5
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_19
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 5
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_20
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 5
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jumpy_general 1_21
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 5
+        width: 34
+        height: 36
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

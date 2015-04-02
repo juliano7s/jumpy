@@ -142,62 +142,59 @@ public class GameOverScreenController : MonoBehaviour
 
     void OnDisable ()
     {
-               
-        //Social.ReportScore(EncryptedPlayerPrefs.GetInt("BestScore"), "CgkI5dWk2_MQEAIQDg", (bool success) => {});
-        //Social.ReportScore(EncryptedPlayerPrefs.GetInt("BestCombo"), "CgkI5dWk2_MQEAIQBw", (bool success) => {});
-
-        if (EncryptedPlayerPrefs.GetFloat("BestCastle2Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle2Time") * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {});
+        //Send only castle times from the last play
+        if (scoreScriptObject.castle2Time > 0) {
+            Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle2Time * 1000), "CgkI5dWk2_MQEAIQAg", (bool success) => {});
         }
-        if (EncryptedPlayerPrefs.GetFloat("BestCastle3Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle3Time") * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {});
+        if (scoreScriptObject.castle3Time > 0) {
+            Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle3Time * 1000), "CgkI5dWk2_MQEAIQAw", (bool success) => {});
         }
-        if (EncryptedPlayerPrefs.GetFloat("BestCastle4Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle4Time") * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {});
+        if (scoreScriptObject.castle4Time > 0) {
+            Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle4Time * 1000), "CgkI5dWk2_MQEAIQBA", (bool success) => {});
         }
-        if (EncryptedPlayerPrefs.GetFloat("BestCastle5Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle5Time") * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {});
+        if (scoreScriptObject.castle5Time > 0) {
+            Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle5Time * 1000), "CgkI5dWk2_MQEAIQBQ", (bool success) => {});
         }
-        if (EncryptedPlayerPrefs.GetFloat("BestCastle6Time") > 0) {
-            Social.ReportScore(Mathf.FloorToInt(EncryptedPlayerPrefs.GetFloat("BestCastle6Time") * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {});
+        if (scoreScriptObject.castle6Time > 0) {
+            Social.ReportScore(Mathf.FloorToInt(scoreScriptObject.castle6Time * 1000), "CgkI5dWk2_MQEAIQBg", (bool success) => {});
         }
 
         //Score achievements retroactively
-        if (score >= 10  && !sentScore10) {
+        if (EncryptedPlayerPrefs.GetInt("BestScore") >= 10  && !sentScore10) {
             Social.ReportProgress("CgkI5dWk2_MQEAIQDw", 100.0f, (bool success) => {});
             sentScore10 = true;
         }
-        if (score >= 50  && !sentScore50){ 
+        if (EncryptedPlayerPrefs.GetInt("BestScore") >= 50  && !sentScore50){ 
             Social.ReportProgress("CgkI5dWk2_MQEAIQEA", 100.0f, (bool success) => {});
             sentScore50 = true;
         }
-        if (score >= 100 && !sentScore100) { 
+        if (EncryptedPlayerPrefs.GetInt("BestScore") >= 100 && !sentScore100) { 
             Social.ReportProgress("CgkI5dWk2_MQEAIQEQ", 100.0f, (bool success) => {});
             sentScore100 = true;
         }
-        if (score >= 150 && !sentScore150) {
+        if (EncryptedPlayerPrefs.GetInt("BestScore") >= 150 && !sentScore150) {
             Social.ReportProgress("CgkI5dWk2_MQEAIQEg", 100.0f, (bool success) => {});
             sentScore150 = true;
         }
 
         //Combo achievements retroactively
-        if (scoreScriptObject.bestComboCount >= 2  && !sentCombo2) { 
+        if (EncryptedPlayerPrefs.GetInt("BestCombo") >= 2  && !sentCombo2) { 
             Social.ReportProgress("CgkI5dWk2_MQEAIQEw", 100.0f, (bool success) => {});
             sentCombo2 = true;
         }
-        if (scoreScriptObject.bestComboCount >= 5  && !sentCombo5) { 
+        if (EncryptedPlayerPrefs.GetInt("BestCombo") >= 5  && !sentCombo5) { 
             Social.ReportProgress("CgkI5dWk2_MQEAIQFA", 100.0f, (bool success) => {});
             sentCombo5 = true;
         }
-        if (scoreScriptObject.bestComboCount >= 10 && !sentCombo10) { 
+        if (EncryptedPlayerPrefs.GetInt("BestCombo") >= 10 && !sentCombo10) { 
             Social.ReportProgress("CgkI5dWk2_MQEAIQFQ", 100.0f, (bool success) => {});
             sentCombo10 = true;
         }
-        if (scoreScriptObject.bestComboCount >= 15 && !sentCombo15) { 
+        if (EncryptedPlayerPrefs.GetInt("BestCombo") >= 15 && !sentCombo15) { 
             Social.ReportProgress("CgkI5dWk2_MQEAIQFg", 100.0f, (bool success) => {});
             sentCombo15 = true;
         }
-        if (scoreScriptObject.bestComboCount >= 20 && !sentCombo20) {
+        if (EncryptedPlayerPrefs.GetInt("BestCombo") >= 20 && !sentCombo20) {
             Social.ReportProgress("CgkI5dWk2_MQEAIQFw", 100.0f, (bool success) => {});
             sentCombo20 = true;
         }
@@ -362,8 +359,9 @@ public class GameOverScreenController : MonoBehaviour
             } else {
                 EncryptedPlayerPrefs.SetFloat("BestCastle2Time", scoreScriptObject.castle2Time);
             }
-            Social.ReportProgress("CgkI5dWk2_MQEAIQCA", 100.0f, (bool success) => {}); //castle achievement
         }
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle2Time") > 0)
+            Social.ReportProgress("CgkI5dWk2_MQEAIQCA", 100.0f, (bool success) => {}); //castle achievement retroactively
 
         if (scoreScriptObject.castle3Time > 0) {
             if (EncryptedPlayerPrefs.GetFloat("BestCastle3Time") > 0) {
@@ -371,8 +369,9 @@ public class GameOverScreenController : MonoBehaviour
             } else {
                 EncryptedPlayerPrefs.SetFloat("BestCastle3Time", scoreScriptObject.castle3Time);
             }
-            Social.ReportProgress("CgkI5dWk2_MQEAIQCQ", 100.0f, (bool success) => {}); //castle achievement
         }
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle3Time") > 0)
+            Social.ReportProgress("CgkI5dWk2_MQEAIQCQ", 100.0f, (bool success) => {}); //castle achievement retroactively
 
         if (scoreScriptObject.castle4Time > 0) {
             if (EncryptedPlayerPrefs.GetFloat("BestCastle4Time") > 0) {
@@ -380,8 +379,9 @@ public class GameOverScreenController : MonoBehaviour
             } else {
                 EncryptedPlayerPrefs.SetFloat("BestCastle4Time", scoreScriptObject.castle4Time);
             }
-            Social.ReportProgress("CgkI5dWk2_MQEAIQCg", 100.0f, (bool success) => {}); //castle achievement
         }
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle4Time") > 0)
+            Social.ReportProgress("CgkI5dWk2_MQEAIQCg", 100.0f, (bool success) => {}); //castle achievement retroactively
 
         if (scoreScriptObject.castle5Time > 0) {
             if (EncryptedPlayerPrefs.GetFloat("BestCastle5Time") > 0) {
@@ -389,8 +389,9 @@ public class GameOverScreenController : MonoBehaviour
             } else {
                 EncryptedPlayerPrefs.SetFloat("BestCastle5Time", scoreScriptObject.castle5Time);
             }
-            Social.ReportProgress("CgkI5dWk2_MQEAIQCw", 100.0f, (bool success) => {}); //castle achievement
         }
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle5Time") > 0)
+            Social.ReportProgress("CgkI5dWk2_MQEAIQCw", 100.0f, (bool success) => {}); //castle achievement retroactively
 
         if (scoreScriptObject.castle6Time > 0) {
             if (EncryptedPlayerPrefs.GetFloat("BestCastle6Time") > 0) {
@@ -398,8 +399,9 @@ public class GameOverScreenController : MonoBehaviour
             } else {
                 EncryptedPlayerPrefs.SetFloat("BestCastle6Time", scoreScriptObject.castle6Time);
             }
-            Social.ReportProgress("CgkI5dWk2_MQEAIQDA", 100.0f, (bool success) => {}); //castle achievement
         }
+        if (EncryptedPlayerPrefs.GetFloat("BestCastle6Time") > 0)
+            Social.ReportProgress("CgkI5dWk2_MQEAIQDA", 100.0f, (bool success) => {}); //castle achievement retroactively
     }
     private void RequestBanner()
     {

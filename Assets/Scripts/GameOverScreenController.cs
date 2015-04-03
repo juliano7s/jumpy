@@ -129,8 +129,8 @@ public class GameOverScreenController : MonoBehaviour
             EncryptedPlayerPrefs.SetInt ("BestCombo", Mathf.Max (scoreScriptObject.bestComboCount, bestCombo));
 
             //Send only the last player score and combo to play services
-            Social.ReportScore(scoreScriptObject.score, "CgkI5dWk2_MQEAIQDg", (bool success) => {});
-            Social.ReportScore(scoreScriptObject.bestComboCount, "CgkI5dWk2_MQEAIQBw", (bool success) => {});
+            Social.ReportScore(scoreScriptObject.score, "CgkI5dWk2_MQEAIQGA", (bool success) => {});
+            Social.ReportScore(scoreScriptObject.bestComboCount, "CgkI5dWk2_MQEAIQGQ", (bool success) => {});
 
             setBestCastleTimes ();
 

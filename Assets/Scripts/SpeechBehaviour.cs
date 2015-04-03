@@ -5,7 +5,7 @@ public class SpeechBehaviour : StateMachineBehaviour {
 
 	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	    animator.SetInteger("speechIndex", Random.Range(0,10));
+	    animator.SetInteger("speechIndex", Random.Range(0,11));
 	}
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

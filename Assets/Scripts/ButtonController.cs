@@ -7,6 +7,7 @@ public class ButtonController : MonoBehaviour {
 
     public GameObject SoundOn;
     public GameObject SoundOff;
+    public GameObject ErrorMessage;
 
 	// Use this for initialization
 	void Start () {
@@ -36,16 +37,30 @@ public class ButtonController : MonoBehaviour {
                 Application.LoadLevel("Tutorial");
         } else if (transform.name == "rank") {
             //
-            Social.ShowLeaderboardUI();
+            if (Social.localUser.authenticated)
+                Social.ShowLeaderboardUI();
+            else {
+                Debug.Log ("Error showing social");
+                ErrorMessage.SetActive(true);
+            }
         } else if (transform.name == "achv") {
             //
-            Social.ShowAchievementsUI();
+            if (Social.localUser.authenticated)
+                Social.ShowAchievementsUI();
+            else {
+                Debug.Log ("Error showing social");
+                ErrorMessage.SetActive(true);
+            }
         } else if (transform.name == "menu") {
             Application.LoadLevel("Start");
         } else if (transform.name == "rate") {
             //
             Application.OpenURL("https://play.google.com/store/apps/details?id=com.creationguts.jumpy");
-        } else if (transform.name.Equals("sound")) {
+        } else if (transform.name.Equals("close")) {
+            Application.Quit();
+        } else if (transform.name.Equals("errorMessage")) {
+            ErrorMessage.SetActive(false);
+        }  else if (transform.name.Equals("sound")) {
             if (SoundOn.GetComponent<SpriteRenderer>().enabled) {
                 SoundOff.GetComponent<SpriteRenderer>().enabled = true;
                 SoundOn.GetComponent<SpriteRenderer>().enabled = false;

@@ -419,10 +419,7 @@ public class GameOverScreenController : MonoBehaviour
             bannerView = new BannerView (adUnitId, AdSize.Banner, AdPosition.Bottom);
             // Create an empty ad request.
             //AdRequest request = new AdRequest.Builder().Build();
-            AdRequest request = new AdRequest.Builder ()
-                //.AddTestDevice (AdRequest.TestDeviceSimulator)       // Simulator.
-                .AddTestDevice ("75ABC2944FDBB5E13BA1723DEBA591F7")  // My Nexus 4 device
-                .Build ();
+            AdRequest request = new AdRequest.Builder().Build ();
             // Load the banner with the request.
             bannerView.LoadAd (request);
         }

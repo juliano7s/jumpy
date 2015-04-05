@@ -91,7 +91,7 @@ public class PlatformSpawner : MonoBehaviour {
 		if (platformCount >= 5 && castle2 == null)
 		{			
 			castle2 = GameObject.Find("castle2");
-			castle2.transform.position = new Vector3(position.x + 13, position.y, castle2.transform.position.z);
+			castle2.transform.position = new Vector3(position.x + 17, position.y, castle2.transform.position.z);
             platformDistance = 45.0f;
 			lastSpawnedCastle = castle2;
 			castleSpawned = true;
@@ -100,7 +100,7 @@ public class PlatformSpawner : MonoBehaviour {
         if (platformCount >= 15 && castle3 == null)
 		{			
 			castle3 = GameObject.Find("castle3");
-            castle3.transform.position = new Vector3(position.x + 13, position.y, castle2.transform.position.z);
+            castle3.transform.position = new Vector3(position.x + 17, position.y, castle2.transform.position.z);
             platformPrefab = platformMediumPrefab;
             platformDistance = 30.0f;
 			lastSpawnedCastle = castle3;
@@ -110,7 +110,7 @@ public class PlatformSpawner : MonoBehaviour {
         if (platformCount >= 25 && castle4 == null)
 		{
 			castle4 = GameObject.Find("castle4");
-            castle4.transform.position = new Vector3(position.x + 13, position.y, castle2.transform.position.z);
+            castle4.transform.position = new Vector3(position.x + 15, position.y, castle2.transform.position.z);
             platformDistance = 35.0f;
 			lastSpawnedCastle = castle4;
 			castleSpawned = true;
